@@ -72,12 +72,9 @@ def SfcUnitConverter(sfc):
     
 
 
-# Iterative Solver for Takeoff Weight
-def solve_takeoff_weight_HCFA(crew_weight, payload_weight, A, C, cruise_segments, loiter_segments, custom_segments, e = 1e-6, max_iter=1000):
+def solve_takeoff_weight_HCFA(crew_weight, payload_weight, A, C, cruise_segments, loiter_segments, custom_segments, e=1e-6, max_iter=1000):
     """
-    Iteratively solve for the takeoff weight of the aircraft using hydrocarbon fuels. 
-    You will need to use this so that you can compute the energy ratios when estimating the weight
-    of an electric or hybrid electric aircraft. 
+    Iteratively solve for the takeoff weight of the aircraft using hydrocarbon fuels.
     
     Parameters:
     - crew_weight: Total crew weight (including baggage)
@@ -85,19 +82,23 @@ def solve_takeoff_weight_HCFA(crew_weight, payload_weight, A, C, cruise_segments
     - A, C: Constants from Raymer tables for empty weight fraction
     - cruise_segments: List of tuples [(R, c, eta, lift_to_drag), ...] for cruise segments
     - loiter_segments: List of tuples [(E, V, c, eta, lift_to_drag), ...] for loiter segments
-    - other_segments: List of weight fractions [guess_1, guess_2, ...] for non-cruise/loiter segments
-    - tol: Convergence tolerance
+    - custom_segments: List of weight fractions for non-cruise/loiter segments
+    - e: Convergence tolerance
     - max_iter: Maximum number of iterations
     
     Returns:
     - takeoff_weight: Converged takeoff weight
-    - iterations: Number of iterations used
+    - cruise_fuel_weight_HCFA: Total weight of the fuel needed for the cruise segments (in lbs)
+    - fuel_fractions: List of fuel fractions for loiter segments
     """
     # Initial guess for takeoff weight
     takeoff_weight_guess = crew_weight + payload_weight + 1000  # Arbitrary guess
     iterations = 0
+   
 
     while iterations < max_iter:
+        loiter_fuel_fractions = []
+        cruise_fuel_weight_HCFA = 0 # Track the fuel weight used in cruise segments
         # Step 1: Calculate the empty weight fraction
         empty_weight_frac = RaymerMethod(takeoff_weight_guess, A, C)
 
@@ -106,16 +107,15 @@ def solve_takeoff_weight_HCFA(crew_weight, payload_weight, A, C, cruise_segments
         
         # Cruise segments
         for R, c, eta, lift_to_drag in cruise_segments:
+            cruise_fuel_weight_HCFA += CruiseFraction(R, c, eta, lift_to_drag) * takeoff_weight_guess  # Add fuel used in this segment
             fuel_weight_frac *= CruiseFraction(R, c, eta, lift_to_drag)
-
-            
-
+        
         # Loiter segments
         for E, V, c, eta, lift_to_drag in loiter_segments:
             fuel_weight_frac *= LoiterFraction(E, V, c, eta, lift_to_drag)
-        
-        
-        # Custom segments (These values come directly metabook/textbook)
+            loiter_fuel_fractions.append(fuel_weight_frac)
+
+        # Custom segments (These values come directly from the textbook)
         for frac in custom_segments:
             fuel_weight_frac *= frac
 
@@ -127,7 +127,7 @@ def solve_takeoff_weight_HCFA(crew_weight, payload_weight, A, C, cruise_segments
 
         # Step 5: Check convergence
         if error < e:
-            return new_takeoff_weight, iterations 
+            return new_takeoff_weight, cruise_fuel_weight_HCFA, loiter_fuel_fractions
 
         # Update guess and iterate
         takeoff_weight_guess = new_takeoff_weight
@@ -135,6 +135,7 @@ def solve_takeoff_weight_HCFA(crew_weight, payload_weight, A, C, cruise_segments
 
     # If the loop completes without convergence
     raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
+
 
 def SpecificEnergyConverter(e):
 
@@ -166,24 +167,32 @@ def CruiseBatteryMass(R, weight_guess, eta_battery, e, lift_to_drag):
 
 
 
-def EnergyFractions(custom_segments, loiter_weight_segments, hcfa_togw, fuel_weight_HCAS):
-
-    """Calculates the energy fractions needed for estimating the weight of an electric aircraft. There should be one energy fraction
-    for each segment of the flight excluding cruise segments. 
-        custom_segments: The weight fuel fraction for HCFA aircraft which can be found in Table 2.2 of the metabook
-        (This should be the same as the custom segments input into the HCFA solver)
-        loiter_weight segments: A list of loiter weight segments computed by the last iteration of the HCAS solver
-        that can be used as fuel fractions when no value can be foun in Table 2.2. 
-        hcas_togw: The final calculated togw computed by the HCFA solver
-        fuel_weight_HCAS: The fuel weight (not the fuel weight fraction) in lbs of the fuel needed for cruise
-        
-        
-        returns: a list of the estimated energy fractions for each flight segment"""
+def EnergyFractions(custom_segments, loiter_fractions, hcfa_togw, cruise_fuel_weight_HCFA):
+    """
+    Calculates the energy fractions needed for estimating the weight of an electric aircraft.
     
+    Parameters:
+    - custom_segments: List of weight fractions for HCFA aircraft.
+    - loiter_fractions: List of loiter weight fractions from the final HCFA solver iteration.
+    - hcfa_togw: The final calculated takeoff weight of the HCFA aircraft.
+    - fuel_weight_HCAS: The fuel weight needed for cruise (not the fuel weight fraction) in lbs for the HCFA craft. 
+    
+    Returns:
+    - energy_frac: List of energy fractions for each flight segment.
+    """
+    energy_fractions = []
+    
+    # For custom segments, calculate energy fractions
+    for frac in custom_segments:
+        energy_fraction = (1 - frac) * (hcfa_togw / cruise_fuel_weight_HCFA)
+        energy_fractions.append(energy_fraction)
 
-    #energy_frac = (1 - flight_segment)(hcfa_togw/fuel_weight_HCAS)
+    # For loiter segments, calculate energy fractions
+    for loiter_frac in loiter_fractions:
+        energy_fraction = (1 - loiter_frac) * (hcfa_togw / cruise_fuel_weight_HCFA)
+        energy_fractions.append(energy_fraction)
 
-    #return energy_frac
+    return energy_fractions
     
 
 def NewElectricWeight(weight_guess, W_crew, W_payload, W_e, m_battery, energy_fractions):
@@ -202,7 +211,135 @@ def NewElectricWeight(weight_guess, W_crew, W_payload, W_e, m_battery, energy_fr
 
 
     return new_weight
+
+def solve_takeoff_weight_electric(crew_weight, payload_weight, A, C, cruise_segments, loiter_segments, custom_segments, eta_battery, specific_energy, e=1e-6, max_iter=1000):
+    """
+    Iteratively solve for the takeoff weight of the electric aircraft using HCFA solver for energy fractions.
     
+    Parameters:
+    - crew_weight: Total crew weight (including baggage) in lbf
+    - payload_weight: Total payload weight in lbf
+    - A, C: Constants from Raymer tables for empty weight fraction
+    - cruise_segments: List of tuples [(R, c, eta, lift_to_drag), ...] for cruise segments
+    - loiter_segments: List of tuples [(E, V, c, eta, lift_to_drag), ...] for loiter segments
+    - custom_segments: List of weight fractions for non-cruise/loiter segments
+    - eta_battery: Battery efficiency (fractional)
+    - specific_energy: Specific energy of the battery in Wh/kg
+    - e: Convergence tolerance
+    - max_iter: Maximum number of iterations
+    
+    Returns:
+    - takeoff_weight: Converged takeoff weight for the electric aircraft in lbf
+    - battery_mass: Mass of the battery required for the cruise segment in slugs
+    - energy_fractions: List of energy fractions for each segment
+    """
+    
+    # Initial guess for electric aircraft weight
+    weight_guess = crew_weight + payload_weight + 1000  # Arbitrary initial guess
+    iterations = 0
+    battery_mass = 0  # Start with no battery mass
+
+    while iterations < max_iter:
+
+        energy_fractions = [] # create energy fraction list
+        battery_mass = 0 # create variable for battery mass
+
+        # Step 1: Solve for HCFA takeoff weight and cruise fuel weight
+        hcfa_togw, cruise_fuel_weight_HCFA, loiter_fuel_fractions = solve_takeoff_weight_HCFA(
+            crew_weight, payload_weight, A, C, cruise_segments, loiter_segments, custom_segments, e, max_iter
+        )
+        
+        # Step 2: Calculate the empty weight fraction using the Raymer method
+        W_e = RaymerMethod(weight_guess, A, C)
+
+        # Step 3: Calculate the total energy fractions using the HCFA results
+        energy_fractions = EnergyFractions(custom_segments, loiter_fuel_fractions, hcfa_togw, cruise_fuel_weight_HCFA)
+
+        # Step 4: Calculate battery mass for cruise using the current weight guess
+        battery_mass = 0
+        for R, _, _, l_to_d in cruise_segments:
+            battery_mass += CruiseBatteryMass(R, weight_guess, eta_battery, specific_energy, l_to_d)
+
+        # Step 5: Solve for the new electric aircraft weight using the calculated values
+        new_weight = NewElectricWeight(weight_guess, crew_weight, payload_weight, W_e, battery_mass, energy_fractions)
+
+        # Step 6: Calculate error for convergence check
+        error = abs(new_weight - weight_guess) / new_weight
+        
+        # Step 7: Check convergence
+        if error < e:
+            return new_weight, battery_mass, energy_fractions
+
+        # Update guess and iterate
+        weight_guess = new_weight
+        iterations += 1
+
+    # If the loop completes without convergence
+    raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
+
+    
+# Sample data for the electric aircraft solver
+
+# Constants from Raymer tables for empty weight fraction calculation
+A = 0.74   # Example constant from Raymer (this should be based on your aircraft design)
+C = -0.03     # Example exponent from Raymer (this should be based on your aircraft design)
+
+# Crew and payload weights in lbf (pounds force)
+crew_weight = 240  # Weight of the crew and baggage in lbf
+payload_weight = 3500  # Weight of the payload in lbf
+
+# Cruise segments for the HCFA and electric aircraft
+# Each tuple contains (R, c, eta, lift_to_drag)
+cruise_segments = [
+    (10000, 0.5, 0.85, 15),  # Example cruise segment: (Range in ft, Specific Fuel Consumption, Efficiency, Lift-to-Drag ratio)
+    (15000, 0.6, 0.87, 16)   # Another example cruise segment
+]
+
+# Loiter segments for the HCFA and electric aircraft
+# Each tuple contains (E, V, c, eta, lift_to_drag)
+loiter_segments = [
+    (1200, 150, 0.4, 0.9, 12),  # Example loiter segment: (Endurance in seconds, Velocity in ft/s, Specific Fuel Consumption, Efficiency, Lift-to-Drag ratio)
+    (1500, 140, 0.45, 0.88, 14) # Another example loiter segment
+]
+
+# Custom segments (weight fractions) for other non-cruise/loiter segments
+custom_segments = [.996,.995,.996,.998,.999,.998]  # Example custom weight fractions
+
+# Battery efficiency for electric aircraft (fractional)
+eta_battery = 0.95  # Example battery efficiency (95%)
+
+# Specific energy of the battery in Wh/kg
+specific_energy = 220  # Example specific energy (220 Wh/kg)
+
+# Lift-to-drag ratio for the electric aircraft
+lift_to_drag = 10  # Example lift-to-drag ratio (dimensionless)
+
+# Convergence tolerance and maximum iterations for iterative solver
+e = 1e-6
+max_iter = 1000
+
+# Solve for the takeoff weight, battery mass, and energy fractions for the electric aircraft
+takeoff_weight, battery_mass, energy_fractions = solve_takeoff_weight_electric(
+    crew_weight,
+    payload_weight,
+    A,
+    C,
+    cruise_segments,
+    loiter_segments,
+    custom_segments,
+    eta_battery,
+    specific_energy,
+    e=e,
+    max_iter=max_iter
+)
+
+# Print the results
+print(f"Converged takeoff weight of the electric aircraft: {takeoff_weight:.2f} lbf")
+print(f"Required battery mass for cruise segments: {battery_mass:.2f} slugs")
+print("Energy fractions for each segment:")
+for i, energy_frac in enumerate(energy_fractions):
+    print(f"  Segment {i+1}: {energy_frac:.4f}")
+
 
 
 
