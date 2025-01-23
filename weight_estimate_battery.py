@@ -1,8 +1,6 @@
 import numpy as np
 
-import numpy as np
-
-# Weight Estimate Calculator for Fueled Propeller Aircraft
+# DO NOT USE, THIS IS BROKEN!!!!
 
 
 def RaymerMethod(W_naught,A,C):
@@ -66,7 +64,7 @@ def NewWeight(crew_weight, payload_weight, fuel_weight_frac, empty_weight_frac):
 def SfcUnitConverter(sfc):
     """Converts a specific fuel consumption from lbm/hp/hr to ft^-1
         sfc: Specific fuel consumption in lbm/hp/hr"""
-    sfc_convert = sfc/(550*32.174)
+    sfc_convert = sfc/(1980000)
 
     return sfc_convert
     
@@ -103,24 +101,25 @@ def solve_takeoff_weight_HCFA(crew_weight, payload_weight, A, C, cruise_segments
         empty_weight_frac = RaymerMethod(takeoff_weight_guess, A, C)
 
         # Step 2: Calculate the total fuel weight fraction
-        fuel_weight_frac = 1.0  # Start with a neutral multiplier
+        segment_frac = 1.0  # Start with a neutral multiplier
         
         # Cruise segments
         for R, c, eta, lift_to_drag in cruise_segments:
             cruise_fuel_weight_HCFA += CruiseFraction(R, c, eta, lift_to_drag) * takeoff_weight_guess  # Add fuel used in this segment
-            fuel_weight_frac *= CruiseFraction(R, c, eta, lift_to_drag)
+            segment_frac *= CruiseFraction(R, c, eta, lift_to_drag)
         
         # Loiter segments
         for E, V, c, eta, lift_to_drag in loiter_segments:
-            fuel_weight_frac *= LoiterFraction(E, V, c, eta, lift_to_drag)
+            segment_frac *= LoiterFraction(E, V, c, eta, lift_to_drag)
+            fuel_weight_frac = 1-segment_frac
             loiter_fuel_fractions.append(fuel_weight_frac)
 
         # Custom segments (These values come directly from the textbook)
         for frac in custom_segments:
-            fuel_weight_frac *= frac
+            segment_frac *= frac
 
         # Step 3: Solve for the new takeoff weight
-        new_takeoff_weight = NewWeight(crew_weight, payload_weight, fuel_weight_frac, empty_weight_frac)
+        new_takeoff_weight = NewWeight(crew_weight, payload_weight, segment_frac, empty_weight_frac)
 
         # Step 4: Calculate error
         error = abs(new_takeoff_weight - takeoff_weight_guess) / new_takeoff_weight
