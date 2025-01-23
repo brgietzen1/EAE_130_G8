@@ -46,8 +46,9 @@ def LoiterFraction(E, V, c, eta, lift_to_drag):
         
         returns: weight fraction of loiter segment"""
     
+    E_seconds = E*3600
 
-    weight_frac = np.exp( (-E*V*SfcUnitConverter(c)) / (eta*lift_to_drag))
+    weight_frac = np.exp( (-E_seconds*V*SfcUnitConverter(c)) / (eta*lift_to_drag))
 
     return weight_frac
 
@@ -65,8 +66,8 @@ def NewWeight(crew_weight, payload_weight, fuel_weight_frac, empty_weight_frac):
 
 def SfcUnitConverter(sfc):
     """Converts a specific fuel consumption from lbm/hp/hr to ft^-1
-        sfc: Specific fuel consumption in lbm/hp/hr"""
-    sfc_convert = sfc/(550*32.174)
+        bsfc: Brake Specific fuel consumption in lbf/hp/hr"""
+    sfc_convert = sfc/(1980000)
 
     return sfc_convert
     
@@ -103,19 +104,21 @@ def solve_takeoff_weight(crew_weight, payload_weight, A, C, cruise_segments, loi
         empty_weight_frac = RaymerMethod(takeoff_weight_guess, A, C)
 
         # Step 2: Calculate the total fuel weight fraction
-        fuel_weight_frac = 1.0  # Start with a neutral multiplier
+        segment_frac = 1.0  # Start with a neutral multiplier
         
         # Cruise segments
         for R, c, eta, lift_to_drag in cruise_segments:
-            fuel_weight_frac *= CruiseFraction(R, c, eta, lift_to_drag)
-
+            segment_frac *= CruiseFraction(R, c, eta, lift_to_drag)
+            
         # Loiter segments
         for E, V, c, eta, lift_to_drag in loiter_segments:
-            fuel_weight_frac *= LoiterFraction(E, V, c, eta, lift_to_drag)
+            segment_frac *= LoiterFraction(E, V, c, eta, lift_to_drag)
         
         # Custom segments (These values come directly metabook/textbook)
         for frac in custom_segments:
-            fuel_weight_frac *= frac
+            segment_frac *= frac
+
+        fuel_weight_frac = (1 - segment_frac)*1.06
 
         # Step 3: Solve for the new takeoff weight
         new_takeoff_weight = NewWeight(crew_weight, payload_weight, fuel_weight_frac, empty_weight_frac)
@@ -124,7 +127,7 @@ def solve_takeoff_weight(crew_weight, payload_weight, A, C, cruise_segments, loi
         error = abs(new_takeoff_weight - takeoff_weight_guess) / new_takeoff_weight
 
         # Step 5: Check convergence
-        if error < e:
+        if 2*error < e:
             return new_takeoff_weight, iterations
 
         # Update guess and iterate
@@ -143,12 +146,12 @@ tol = 1e-6            # Convergence tolerance
 
 # Define flight segments
 cruise_segments = [
-    (600000, 0.25, 0.8, 10),  # Range in ft, specific fuel consumption in lbm/hp/hr, propeller efficiency, L/D
+    (4.224e+6, 0.5, 0.8, 10),  # Range in ft, specific fuel consumption in lbm/hp/hr, propeller efficiency, L/D
 ]
 loiter_segments = [
-    (0.5, 300, 0.40, 0.8, 10),  # Endurance in hrs, velocity in ft/s, specific fuel consumption lbm/hp/hr, propeller efficiency, L/D
+    (0.5, 190, 0.5, 0.8, 10),  # Endurance in hrs, velocity in ft/s, specific fuel consumption lbm/hp/hr, propeller efficiency, L/D
 ]
-other_segments = [0.97, 0.995, 0.98]  # Estimated weight fractions for non-cruise/loiter phases
+other_segments = [0.996,0.995,0.996,0.998,0.999,0.998]  # Estimated weight fractions for non-cruise/loiter phases
 
 # Solve for takeoff weight
 takeoff_weight, iterations = solve_takeoff_weight(
