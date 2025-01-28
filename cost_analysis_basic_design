@@ -4,10 +4,31 @@ import numpy as np
 
 # (A) RDT&E COSTS
 # Parameters Variables
-#empty weight (lb) - !from weight calc
+########################################################################### FROM WEIGHT CALC
+#empty weight (lb)
 W_e = 6751
+#Fuel Weight (lb)
+W_f = 1701.8
+#Battery weight (lb)
+W_b = 50
+#Airframe weight (Empty weight minus engine weight, battery weight, and motor weight)
+W_A = 5000
+#Max Takeoff Weight (lb)
+MTOW = 16000
+######################################################################## FROM RFP 
+#current year (year our technology level is considered at - note our date of entry into service is 2035)
+t_year = 2025
+#base year (ideally use 1989 like the text book)
+b_year = 1989
+#no. of total engines per aircraft
+n_engines = 1
 #production quantity
 Q = 1000
+#total production quantity times number of engines per aircraft
+N_eng_total = Q * n_engines
+# no. of turboprop engines
+n_engines_turbo = 1
+######################################################################## AIRCRAFT SPECIFIC VARIABLES
 #maximum velocity (knots)
 V = 213
 #engine maximum thrust (lb)
@@ -16,12 +37,11 @@ T_max = 500
 M_max = 0.322
 #turbine inlet temperature (Rankine)
 T_turbine_inlet = 3600
-#no. of total engines per aircraft
-n_engines = 1
-#total production quantity times number of engines per aircraft
-N_eng_total = Q * n_engines
-# Number of flight test aircraft
-FTA = 4
+#Range in nmi
+R = 530
+########################################################################HOURLY RATE AND OTHER EQUATIONS
+#Cost escalation factor (t_CEF/b_CEF)
+CEF = (5.17053 + 0.104981 * (t_year - 2006))/(5.17053 + 0.104981 * (b_year - 2006))
 #Engineering hourly rate (wrap rate - salary plus all other costs like benefits and administrative costs - typically the salary is half the wrap)
 R_engineer = 2.576 * 2025 - 5058
 #Tooling hourly rate
@@ -30,42 +50,28 @@ R_tooling = 2.883 * 2025 - 5666
 R_qc = 2.60 * 2025 - 5112
 #Manufacturing hourly rate 
 R_manufacturing = 2.316 * 2025 - 4552
-#Airline Factor
+
+########################################################################RELATIVELY CONSTANT VARIABLES
+# Number of flight test aircraft -> Raymer
+FTA = 4
+#Airline Factor -> Meta
 AF = 0.8
-#Route Factor
+#Route Factor -> Meta
 K = 2.75
-#Max Takeoff Weight (lb) - !need from weight calc
-MTOW = 16000
 #Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement)
 tb = 8
-#current year (year our technology level is considered at - note our date of entry into service is 2035)
-t_year = 2025
-#base year (ideally use 1989 like the text book)
-b_year = 1989
-#Cost escalation factor (t_CEF/b_CEF)
-CEF = (5.17053 + 0.104981 * (t_year - 2006))/(5.17053 + 0.104981 * (b_year - 2006))
-#Fuel Weight (lb) - !from weight calc
-W_f = 1701.8
 #Price per gallon of fuel 
 P_f = 6.56
 #fuel density (lbs/gal)
 rho_f = 6.7
-#Battery weight (lb) - !from weight calc
-W_b = 50
 #Price of electricity in $/kWh
 P_elec = 0.43
 #Specific energy of battery in Wh/kg (0 is no batteries)
 e_elec = 150
-#Range in nmi
-R = 530
-#Airframe weight (Empty weight minus engine weight, battery weight, and motor weight) - !from weight calc
-W_A = 5000
 #Maintenance labor cost in USD/hr for the year of interest
 RL = 155
 #Total takeoff shaft horsepower (all engines added up)
 SHP_TO = 1295
-# no. of turboprop engines
-n_engines_turbo = 1
 # no. of hours between engine overhauls (usually between 3000 and 5000)
 H_em = 5000
 #Aircraft residual value factor (estimated over lifetime)
@@ -80,6 +86,8 @@ motor_hp = 1000
 battery_kWh = 75
 
 
+
+####################################################################################
 # Define the functions for various cost calculations based on the provided formulas
 
 #Engineering Hours
@@ -115,7 +123,7 @@ tooling_hours = tooling_hours(W_e, V, Q)
 manufacturing_hours = manufacturing_hours(W_e, V, Q)
 qc_hours = qc_hours(manufacturing_hours)
 RDTE_cost = RDTE_cost(engineering_hours, R_engineer, tooling_hours, R_tooling, manufacturing_hours, R_manufacturing, qc_hours, R_qc)
-print(f"The RDT&E cost to produce {Q} aircraft is {RDTE_cost}")
+print(f"The RDT&E cost to produce {Q} aircraft is ${RDTE_cost:,.2f}.\n")
 # (B) Flyaway/Production
 
 #Development Support Cost
@@ -148,7 +156,7 @@ def C_flyaway(development_support_cost, flight_test_cost, manufacturing_material
 
 #Total Aircraft Cost (to recoup RDT&E and Production)
 def C_aircraft(RDTE_cost, C_flyaway):
-    C_aircraft = RDTE_cost + C_flyaway*Q
+    C_aircraft = RDTE_cost/Q + C_flyaway
     return C_aircraft
 
 #Engine cost per plane
@@ -170,7 +178,9 @@ C_aircraft = C_aircraft(RDTE_cost, C_flyaway)
 C_engine = C_engine(SHP_TO, CEF)
 C_airframe = C_airframe(C_aircraft, C_engine)
 
-print(f"The flyaway cost is {C_flyaway}. To make a 10% profit on the production cost the plane should cost {1.1*C_flyaway}. To make a 10% profit on the total plane cost (production + RDT&E) the plane should cost {1.1 * C_aircraft/Q}")
+print(f"The flyaway cost is ${C_flyaway:,.2f}. \n"
+      f"To make a 10% profit on the production cost the plane should cost ${1.1*C_flyaway:,.2f}.\n"
+      f"To make a 10% profit on the total plane cost (production + RDT&E) the plane should cost ${1.1 * C_aircraft:,.2f}.\n")
 # (C) DOC: Direct Operating Costs
 # DOC = COC + FOC
 
@@ -297,4 +307,4 @@ C_financing = C_financing(DOC)
 C_registration = C_registration(MTOW, DOC)
 DOC_total = DOC_total(DOC, C_registration, C_financing)
 
-print(f"The Direct Operating Cost is {DOC_total}")
+print(f"The Direct Operating Cost is ${DOC_total:,.2f}.")
