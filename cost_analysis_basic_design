@@ -13,9 +13,9 @@ V = 213
 #engine maximum thrust (lb)
 T_max = 500
 #max mach number
-M_max = 0.33
+M_max = 0.322
 #turbine inlet temperature (Rankine)
-T_turbine_inlet = 518
+T_turbine_inlet = 3600
 #no. of total engines per aircraft
 n_engines = 1
 #total production quantity times number of engines per aircraft
@@ -38,32 +38,32 @@ K = 2.75
 MTOW = 16000
 #Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement)
 tb = 8
-#current year (year our technology level is considered at - our date of entry into service is 2035 so we should use 2035)
+#current year (year our technology level is considered at - note our date of entry into service is 2035)
 t_year = 2025
 #base year (ideally use 1989 like the text book)
 b_year = 1989
 #Cost escalation factor (t_CEF/b_CEF)
 CEF = (5.17053 + 0.104981 * (t_year - 2006))/(5.17053 + 0.104981 * (b_year - 2006))
 #Fuel Weight (lb) - !from weight calc
-W_f = 213.4
+W_f = 1701.8
 #Price per gallon of fuel 
-P_f = 2.14
+P_f = 6.56
 #fuel density (lbs/gal)
 rho_f = 6.7
 #Battery weight (lb) - !from weight calc
 W_b = 50
 #Price of electricity in $/kWh
-P_elec = 0.14
+P_elec = 0.43
 #Specific energy of battery in Wh/kg (0 is no batteries)
-e_elec = 200
+e_elec = 150
 #Range in nmi
 R = 530
 #Airframe weight (Empty weight minus engine weight, battery weight, and motor weight) - !from weight calc
 W_A = 5000
 #Maintenance labor cost in USD/hr for the year of interest
-RL = 60
+RL = 155
 #Total takeoff shaft horsepower (all engines added up)
-SHP_TO = 1350
+SHP_TO = 1295
 # no. of turboprop engines
 n_engines_turbo = 1
 # no. of hours between engine overhauls (usually between 3000 and 5000)
@@ -77,7 +77,7 @@ IR_a = 0.02
 #Electric motor horsepower
 motor_hp = 1000
 #Battery storage
-battery_kWh = 65
+battery_kWh = 75
 
 
 # Define the functions for various cost calculations based on the provided formulas
@@ -115,7 +115,7 @@ tooling_hours = tooling_hours(W_e, V, Q)
 manufacturing_hours = manufacturing_hours(W_e, V, Q)
 qc_hours = qc_hours(manufacturing_hours)
 RDTE_cost = RDTE_cost(engineering_hours, R_engineer, tooling_hours, R_tooling, manufacturing_hours, R_manufacturing, qc_hours, R_qc)
-print(f"The RDT&E cost is {RDTE_cost}")
+print(f"The RDT&E cost to produce {Q} aircraft is {RDTE_cost}")
 # (B) Flyaway/Production
 
 #Development Support Cost
