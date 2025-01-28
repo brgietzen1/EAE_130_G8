@@ -10,8 +10,6 @@ W_e = empty_weight_frac * new_takeoff_weight
 Q =
 #maximum velocity (knots)
 V =
-#manufacturing hours
-mfg_hours =
 #engine maximum thrust (lb)
 T_max =
 #max mach number
@@ -25,27 +23,27 @@ N_eng_total = Q * n_engines
 # Number of flight test aircraft
 FTA =
 #Engineering hourly rate (wrap rate - salary plus all other costs like benefits and administrative costs - typically the salary is half the wrap)
-R_engineer = 
+R_engineer = 2.576 * 2025 - 5058
 #Tooling hourly rate
-R_tooling = 
+R_tooling = 2.883 * 2025 - 5666
 #Quality control hourly rate 
-R_qc = 
+R_qc = 2.60 * 2025 - 5112
 #Manufacturing hourly rate 
-R_manufacturing = 
+R_manufacturing = 2.316 * 2025 - 4552
 #Airline Factor
 AF =
 #Route Factor
 K = 
-#Max Takeoff Weight (lb)
-MTOW = 19000
+#Max Takeoff Weight (lb) - !need from weight calc
+MTOW = 
 #Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement)
 tb = 
 #current year (year our technology level is considered at - our date of entry into service is 2035 so we should use 2035)
-t_year = 2035
+t_year = 2025
 #base year (ideally use 1989 like the text book)
 b_year = 1989
 #Cost escalation factor (t_CEF/b_CEF)
-CEF = 
+CEF = (5.17053 + 0.104981 * (t_year - 2006))/(5.17053 + 0.104981 * (b_year - 2006))
 #Fuel Weight (lb) - !from weight calc
 W_f = fuel_weight_frac * new_takeoff_weight
 #Price per gallon of fuel 
@@ -100,8 +98,8 @@ def manufacturing_hours(W_e, V, Q):
 
 
 #QC Hours
-def qc_hours(mfg_hours):
-   qc_hours = 0.133 * mfg_hours
+def qc_hours(manufacturing_hours):
+   qc_hours = 0.133 * manufacturing_hours
    return qc_hours
 
 #Total RDT&E Cost
