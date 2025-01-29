@@ -155,8 +155,13 @@ def C_flyaway(development_support_cost, flight_test_cost, manufacturing_material
     return C_flyaway / Q
 
 #Total Aircraft Cost (to recoup RDT&E and Production)
+
 def C_aircraft(RDTE_cost, C_flyaway):
     C_aircraft = RDTE_cost/Q + C_flyaway
+
+def C_aircraft(RDTE_cost, Q, C_flyaway):
+    C_aircraft = RDTE_cost / Q + C_flyaway
+
     return C_aircraft
 
 #Engine cost per plane
@@ -174,13 +179,17 @@ flight_test_cost = flight_test_cost(W_e, V, FTA)
 manufacturing_materials_cost = manufacturing_materials_cost(W_e, V, Q)
 engine_production_cost = engine_production_cost(T_max, M_max, T_turbine_inlet)
 C_flyaway = C_flyaway(development_support_cost, flight_test_cost, manufacturing_materials_cost, engine_production_cost, N_eng_total)
-C_aircraft = C_aircraft(RDTE_cost, C_flyaway)
+C_aircraft = C_aircraft(RDTE_cost, Q, C_flyaway)
 C_engine = C_engine(SHP_TO, CEF)
 C_airframe = C_airframe(C_aircraft, C_engine)
+
 
 print(f"The flyaway cost is ${C_flyaway:,.2f}. \n"
       f"To make a 10% profit on the production cost the plane should cost ${1.1*C_flyaway:,.2f}.\n"
       f"To make a 10% profit on the total plane cost (production + RDT&E) the plane should cost ${1.1 * C_aircraft:,.2f}.\n")
+
+print(f"The flyaway cost is {C_flyaway}. To make a 10% profit on the production cost the plane should cost {1.1*C_flyaway}. To make a 10% profit on the total plane cost (production + RDT&E) the plane should cost {1.1 * C_aircraft}")
+
 # (C) DOC: Direct Operating Costs
 # DOC = COC + FOC
 
