@@ -191,26 +191,28 @@ def solve_takeoff_weight(crew_weight, payload_weight, A, C, cruise_segments, loi
     raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
 
 ############################### USE CODE STARTING HERE ###########################
-crew_weight = 180  # lbf
-payload_weight = 2250  # lbf
+crew_weight = 190  # lbf
+payload_weight = 2000  # lbf
 A = 0.74              # Raymer constant for "Agricultural aircraft" (Table 3.1)
 C = -0.03             # Raymer constant for "Agricultural aircraft" (Table 3.1)
-H = .4             # Degree hybridization in terms of maximum power of electric motor over total aircraft power
-e_f = 12000          # Fuel specific energy in Wh/kg (using Jet-A)
-e_b = 250            # battery specific energy in Wh/kg
-eta_prop = 0.9        # efficiency of propeller
-eta_th = 0.35         # Thermal efficiency of converting fuel into power
-eta_elec = 0.90       # Efficiency of converting battery power into power for the electric motor
+H = .20             # Degree hybridization in terms of maximum power of electric motor over total aircraft power
+e_f = 12800          # Fuel specific energy in Wh/kg (using Jet-A)
+e_b = 500            # battery specific energy in Wh/kg
+eta_prop = 0.8        # efficiency of propeller
+eta_th = 0.30         # Thermal efficiency of converting fuel into power
+eta_elec = 0.85       # Efficiency of converting battery power into power for the electric motor
 tol = 1e-6            # Convergence tolerance
 
 # Define flight segments
 cruise_segments = [
-    (1.056e+6, 0.25, eta_prop, 10),  # Range in ft, specific fuel consumption in lbm/hp/hr, propeller efficiency, L/D
+    (26400, 0.5, eta_prop, 12),  # Range in ft, specific fuel consumption in lbm/hp/hr, propeller efficiency, L/D
+    (688545, 0.5, eta_prop, 12),
+    (26400, 0.5, eta_prop, 12),
 ]
 loiter_segments = [
-    (0.5, 190, 0.25, eta_prop, 10),  # Endurance in hrs, velocity in ft/s, specific fuel consumption lbm/hp/hr, propeller efficiency, L/D
+    (0.5, 180, 0.6, eta_prop, 12),  # Endurance in hrs, velocity in ft/s, specific fuel consumption lbm/hp/hr, propeller efficiency, L/D
 ]
-other_segments = [0.996,0.995,0.996,0.998,0.999,0.998]  # Estimated weight fractions for non-cruise/loiter phases
+other_segments = [0.970, 0.985, 0.990, 0.985, 0.990, 0.995]  # Estimated weight fractions for non-cruise/loiter phases
 
 # Solve for takeoff weight
 results = solve_takeoff_weight(
