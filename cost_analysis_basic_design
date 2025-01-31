@@ -207,9 +207,9 @@ crew_weight = 190  # lbf
 payload_weight = 2500  # lbf
 A = 0.74              # Raymer constant for "Agricultural aircraft" (Table 3.1)
 C = -0.03             # Raymer constant for "Agricultural aircraft" (Table 3.1)
-H = 0.1            # Degree hybridization in terms of maximum power of electric motor over total aircraft power
+H = 0.1           # Degree hybridization in terms of maximum power of electric motor over total aircraft power
 e_f = 12800          # Fuel specific energy in Wh/kg (using Jet-A)
-e_b = 300            # battery specific energy in Wh/kg
+e_b = 400            # battery specific energy in Wh/kg
 eta_prop = 0.8        # efficiency of propeller
 eta_th = 0.30         # Thermal efficiency of converting fuel into power
 eta_elec = 0.85       # Efficiency of converting battery power into power for the electric motor
@@ -293,26 +293,30 @@ FTA = 4
 AF = 0.8
 #Route Factor -> Meta
 K = 2.75
-#Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement)
-tb = 8
+#Total takeoff shaft horsepower (all engines added up)
+SHP_TO = 1295
+#Mission time (fuel weight / specfic fuel consumption / shaft horsepower)
+mission_time = fuel_weight / .6 / 1295
+#Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement - mission time plus a half hour buffer)
+tb = .5 + mission_time
+#Hours per year used
+year_use = 344
 #Price per gallon of fuel 
 P_f = 6.56
 #fuel density (lbs/gal)
 rho_f = 6.7
-#Price of electricity in $/kWh
-P_elec = 0.43
-#Specific energy of battery in Wh/kg (0 is no batteries)
-e_elec = 500
+#Price of electricity in $/kWh (divide by 1000 for $/Wh)
+P_elec = 0.43 / 1000
+#Specific energy of battery in Wh/kg (divide by 2.205 for Wh/lb) (0 is no batteries)
+e_elec = e_b / 2.205
 #Maintenance labor cost in USD/hr for the year of interest
 RL = 155
-#Total takeoff shaft horsepower (all engines added up)
-SHP_TO = 1295
 # no. of hours between engine overhauls (usually between 3000 and 5000)
 H_em = 5000
 #Aircraft residual value factor (estimated over lifetime)
 K_depreciation = 0.1
 #Number of years the aircraft is used
-n = 50
+n = 40
 #hull insurance rate, usually assumed to be 2%
 IR_a = 0.02 
 #Electric motor horsepower
@@ -402,7 +406,6 @@ def C_flyaway(development_support_cost, flight_test_cost, manufacturing_material
 
 def C_aircraft(RDTE_cost, Q, C_flyaway):
     C_aircraft = RDTE_cost / Q + C_flyaway
-
     return C_aircraft
 
 #Engine cost per plane
@@ -439,14 +442,14 @@ def C_crew(AF, K, MTOW, tb, CEF):
 
 # Attendants (Not applicable)
 
-# Fuel
-def C_fuel(W_f, P_f, rho_f):
-    C_fuel = 1.02 * W_f * (P_f/rho_f)
+# Fuel (multiplied by number of missions)
+def C_fuel(W_f, P_f, rho_f, year_use, mission_time, n):
+    C_fuel = 1.02 * W_f * (P_f/rho_f) * year_use / mission_time * n
     return C_fuel
 
-# For hybrid electric propulsion
-def C_electric(W_b, P_elec, e_elec):
-    C_electric = 1.05 * W_b * P_elec * e_elec
+# For hybrid electric propulsion (multiplied by number of missions)
+def C_electric(W_b, P_elec, e_elec, year_use, mission_time, n):
+    C_electric = 1.05 * W_b * P_elec * e_elec * year_use / mission_time * n
     return C_electric
 
 # Oil (neglected for now)
@@ -502,8 +505,8 @@ def C_battery(battery_kWh):
     return C_battery
 
 #Annual Utilization
-def U_annual(tb):
-    U_annual = 1.5 * (10**3) * (3.4546 * tb + 2.994 - (12.289 * (tb ** 2) - 5.6626 * tb + 8.964)**0.5)
+def U_annual(tb, day_use):
+    U_annual = tb * day_use
     return U_annual
 
 # Insurance
@@ -536,8 +539,8 @@ def DOC_total(DOC, C_registration, C_financing):
     return DOC_total
 
 C_crew = C_crew(AF, K, MTOW, tb, CEF)
-C_fuel = C_fuel(W_f, P_f, rho_f)
-C_electric = C_electric(W_b, P_elec, e_elec)
+C_fuel = C_fuel(W_f, P_f, rho_f, year_use, mission_time, n)
+C_electric = C_electric(W_b, P_elec, e_elec, year_use, mission_time, n)
 C_airport = C_airport(MTOW, CEF)
 C_navigation = C_navigation(CEF, R, tb, MTOW)
 C_AirMain = C_AirMain(W_A, RL, CEF, C_airframe, tb)
@@ -547,7 +550,7 @@ C_ML_turbo = C_ML_turbo(SHP_TO, n_engines_turbo, H_em, RL)
 C_EngMain = C_EngMain(n_engines, n_engines_turbo, C_ML_engine, C_MM_engine, C_ML_turbo, tb)
 C_motors = C_motors(motor_hp)
 C_battery = C_battery(battery_kWh)
-U_annual = U_annual(tb)
+U_annual = U_annual(tb, year_use)
 C_insurance = C_insurance(tb, IR_a, C_aircraft, U_annual)
 C_depreciation = C_depreciation(C_flyaway, K_depreciation, tb, n, U_annual)
 DOC = DOC(C_crew, C_fuel, C_electric, C_airport, C_navigation, C_AirMain, C_EngMain, C_battery, C_motors, C_insurance, C_depreciation)
