@@ -562,3 +562,5 @@ C_registration = C_registration(MTOW, DOC)
 DOC_total = DOC_total(DOC, C_registration, C_financing)
 
 print(f"The Cash Operating Cost is ${COC:,.2f}. The Direct Operating Cost is ${DOC_total:,.2f}.")
+
+print(mission_time)
