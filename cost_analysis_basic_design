@@ -564,3 +564,4 @@ DOC_total = DOC_total(DOC, C_registration, C_financing)
 print(f"The Cash Operating Cost is ${COC:,.2f}. The Direct Operating Cost is ${DOC_total:,.2f}.")
 
 print(mission_time)
+print(f"{C_AirMain+ C_ML_engine+ C_MM_engine+ C_ML_turbo+ C_EngMain}")
