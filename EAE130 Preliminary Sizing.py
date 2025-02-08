@@ -46,6 +46,7 @@ def drag_polar(W_L, C_f, AR, e, c, d, W_0, Cl, delta_Cd0=0.0):
     
     # Base zero-lift drag coefficient (Cd₀)
     Cd0 = f / S
+    Cd0 = 0.0286
     
     # Total Cd₀ (base + configuration-specific delta_Cd0)
     Cd0_total = Cd0 + delta_Cd0
@@ -56,41 +57,54 @@ def drag_polar(W_L, C_f, AR, e, c, d, W_0, Cl, delta_Cd0=0.0):
     return Cd
 
 # Range of Cl values
-def Cl_array(Cl_max):
+def Cl_array(delta, Cl_max):
     '''Generate an array of Cl values from -Cl_max to Cl_max'''
-    return np.linspace(-Cl_max, Cl_max, 100)
+    return np.linspace(-0.8 - delta, Cl_max, 100)
+
+def span_eff(h,b, e_ref= 0.85):
+    '''Finds the span efficiency of box wing from reference'''
+
+    e_box = (e_ref * (0.44 + 2.219 * (h/b))/(0.44 + 0.9594 * (h/b))) 
+    return e_box
+
+
 
 # Create a dictionary for the different configuration parameters
 configurations = [
     {
         "name": "Clean",
-        "e": 0.85,
+        "e": 0.8 * span_eff(8, 51),
         "delta_Cd0": 0.0,  # No additional drag for clean configuration
-        "Cl_max": 1.3, # Lift coefficient for clean
+        "Cl_max": 1.6, # Lift coefficient for clean
+        "delta": 0,
     },
     {
         "name": "Takeoff Flap Gear Up",
-        "e": 0.8,
+        "e": 0.8 * span_eff(8, 51),
         "delta_Cd0": 0.01 ,
-        "Cl_max": 1.5,
+        "Cl_max": 1.6 + 0.54,
+        "delta": 0.54
     },
     {
         "name": "Takeoff Flap Gear Down",
-        "e": 0.8,
+        "e": 0.8 * span_eff(8, 51),
         "delta_Cd0": 0.025,
-        "Cl_max": 1.5,
+        "Cl_max": 1.6 + 0.54,
+        "delta": 0.54,
     },
     {
         "name": "Landing Flap Gear Up",
-        "e": 0.75,
+        "e": 0.75 * span_eff(8, 51),
         "delta_Cd0": 0.055,
-        "Cl_max": 1.7,
+        "Cl_max": 1.6 + 0.9,
+        "delta": 0.9,
     },
     {
         "name": "Landing Flap Gear Down",
-        "e": 0.75,
+        "e": 0.75 * span_eff(8, 51),
         "delta_Cd0": 0.055 + 0.015,
-        "Cl_max": 1.7,
+        "Cl_max": 1.6 + 0.9,
+        "delta": 0.9,
     }
 ]
 
@@ -99,7 +113,7 @@ configurations = [
 W_L = 25       # Wing loading (lbf/ft²)
 W_0 = 5000     # Gross weight (lbf)
 C_f = 0.005    # Skin friction coefficient
-AR = 8         # Aspect ratio (TBD)
+AR = 9.22         # Aspect ratio (TBD)
 c = 1.0447        # Roskam constant pg 122(134)
 d = 0.5326        # Roskam constant pg 122(134)
 
@@ -113,7 +127,8 @@ for config in configurations:
     e = config["e"]
     delta_Cd0 = config["delta_Cd0"]
     Cl_max = config["Cl_max"]
-    Cl_values = Cl_array(Cl_max)
+    delta = config["delta"]
+    Cl_values = Cl_array(delta, Cl_max)
     # Calculate Cd for all Cl values
     Cd_values = [drag_polar(W_L, C_f, AR, e, c, d, W_0, Cl, delta_Cd0) for Cl in Cl_values]
     #Cd_values = [drag_polar(W_L, C_f, AR, e, c, d, W_0, Cl, delta_Cd0)]
@@ -140,3 +155,6 @@ def stall_speed(rho, V_stall, Cl_max):
     WS = 0.5 * rho * V_stall ** 2 * Cl_max
 
     return WS
+
+
+print(span_eff(8, 51))
