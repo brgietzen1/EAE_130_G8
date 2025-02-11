@@ -1,27 +1,32 @@
-# EAE130 Cost Analysis
-
-import numpy as np
-
 # (A) RDT&E COSTS
 # Parameters Variables
-#empty weight (lb) - !from weight calc
-W_e = 6751
+######################################################################## FROM RFP 
+#current year (year our technology level is considered at - note our date of entry into service is 2035)
+t_year = 2025
+#base year (ideally use 1989 like the text book)
+b_year = 1989
+#no. of total engines per aircraft
+n_engines = 1
 #production quantity
 Q = 1000
+#total production quantity times number of engines per aircraft
+N_eng_total = Q * n_engines
+# no. of turboprop engines
+n_engines_turbo = 1
+######################################################################## AIRCRAFT SPECIFIC VARIABLES
 #maximum velocity (knots)
 V = 213
 #engine maximum thrust (lb)
 T_max = 500
 #max mach number
-M_max = 0.33
+M_max = 0.322
 #turbine inlet temperature (Rankine)
-T_turbine_inlet = 518
-#no. of total engines per aircraft
-n_engines = 1
-#total production quantity times number of engines per aircraft
-N_eng_total = Q * n_engines
-# Number of flight test aircraft
-FTA = 4
+T_turbine_inlet = 3600
+#Range in nmi
+R = 530
+########################################################################HOURLY RATE AND OTHER EQUATIONS
+#Cost escalation factor (t_CEF/b_CEF)
+CEF = (5.17053 + 0.104981 * (t_year - 2006))/(5.17053 + 0.104981 * (b_year - 2006))
 #Engineering hourly rate (wrap rate - salary plus all other costs like benefits and administrative costs - typically the salary is half the wrap)
 R_engineer = 2.576 * 2025 - 5058
 #Tooling hourly rate
@@ -30,56 +35,57 @@ R_tooling = 2.883 * 2025 - 5666
 R_qc = 2.60 * 2025 - 5112
 #Manufacturing hourly rate 
 R_manufacturing = 2.316 * 2025 - 4552
-#Airline Factor
+
+########################################################################RELATIVELY CONSTANT VARIABLES
+# Number of flight test aircraft -> Raymer
+FTA = 4
+#Airline Factor -> Meta
 AF = 0.8
-#Route Factor
+#Route Factor -> Meta
 K = 2.75
-#Max Takeoff Weight (lb) - !need from weight calc
-MTOW = 16000
-#Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement)
-tb = 8
-#current year (year our technology level is considered at - our date of entry into service is 2035 so we should use 2035)
-t_year = 2025
-#base year (ideally use 1989 like the text book)
-b_year = 1989
-#Cost escalation factor (t_CEF/b_CEF)
-CEF = (5.17053 + 0.104981 * (t_year - 2006))/(5.17053 + 0.104981 * (b_year - 2006))
-#Fuel Weight (lb) - !from weight calc
-W_f = 213.4
+#Total takeoff shaft horsepower (all engines added up)
+SHP_TO = 1295
+#Mission time (fuel weight / specfic fuel consumption / shaft horsepower)
+mission_time = fuel_weight / .6 / 1295
+#Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement - mission time plus a half hour buffer)
+tb = .5 + mission_time
+#Hours per year used
+year_use = 344
 #Price per gallon of fuel 
-P_f = 2.14
+P_f = 6.56
 #fuel density (lbs/gal)
 rho_f = 6.7
-#Battery weight (lb) - !from weight calc
-W_b = 50
-#Price of electricity in $/kWh
-P_elec = 0.14
-#Specific energy of battery in Wh/kg (0 is no batteries)
-e_elec = 200
-#Range in nmi
-R = 530
-#Airframe weight (Empty weight minus engine weight, battery weight, and motor weight) - !from weight calc
-W_A = 5000
+#Price of electricity in $/kWh (divide by 1000 for $/Wh)
+P_elec = 0.43 / 1000
+#Specific energy of battery in Wh/kg (divide by 2.205 for Wh/lb) (0 is no batteries)
+e_elec = e_b / 2.205
 #Maintenance labor cost in USD/hr for the year of interest
-RL = 60
-#Total takeoff shaft horsepower (all engines added up)
-SHP_TO = 1350
-# no. of turboprop engines
-n_engines_turbo = 1
+RL = 155
 # no. of hours between engine overhauls (usually between 3000 and 5000)
 H_em = 5000
 #Aircraft residual value factor (estimated over lifetime)
 K_depreciation = 0.1
 #Number of years the aircraft is used
-n = 50
+n = 40
 #hull insurance rate, usually assumed to be 2%
 IR_a = 0.02 
 #Electric motor horsepower
 motor_hp = 1000
 #Battery storage
-battery_kWh = 65
+battery_kWh = 60
+########################################################################### FROM WEIGHT CALC
+#empty weight (lb)
+W_e = empty_weight
+#Fuel Weight (lb)
+W_f = fuel_weight
+#Battery weight (lb)
+W_b = battery_weight
+#Airframe weight (Empty weight minus engine weight, battery weight, and motor weight)
+W_A = empty_weight - battery_weight - SHP_TO ** (0.9306) * 10 **(-0.1205)
+#Max Takeoff Weight (lb)
+MTOW = takeoff_weight
 
-
+####################################################################################
 # Define the functions for various cost calculations based on the provided formulas
 
 #Engineering Hours
@@ -115,7 +121,7 @@ tooling_hours = tooling_hours(W_e, V, Q)
 manufacturing_hours = manufacturing_hours(W_e, V, Q)
 qc_hours = qc_hours(manufacturing_hours)
 RDTE_cost = RDTE_cost(engineering_hours, R_engineer, tooling_hours, R_tooling, manufacturing_hours, R_manufacturing, qc_hours, R_qc)
-print(f"The RDT&E cost is {RDTE_cost}")
+print(f"The RDT&E cost to produce {Q} aircraft is ${RDTE_cost:,.2f}.\n")
 # (B) Flyaway/Production
 
 #Development Support Cost
@@ -147,6 +153,7 @@ def C_flyaway(development_support_cost, flight_test_cost, manufacturing_material
     return C_flyaway / Q
 
 #Total Aircraft Cost (to recoup RDT&E and Production)
+
 def C_aircraft(RDTE_cost, Q, C_flyaway):
     C_aircraft = RDTE_cost / Q + C_flyaway
     return C_aircraft
@@ -170,7 +177,11 @@ C_aircraft = C_aircraft(RDTE_cost, Q, C_flyaway)
 C_engine = C_engine(SHP_TO, CEF)
 C_airframe = C_airframe(C_aircraft, C_engine)
 
-print(f"The flyaway cost is {C_flyaway}. To make a 10% profit on the production cost the plane should cost {1.1*C_flyaway}. To make a 10% profit on the total plane cost (production + RDT&E) the plane should cost {1.1 * C_aircraft}")
+
+print(f"The flyaway cost is ${C_flyaway:,.2f}. \n"
+      f"To make a 10% profit on the production cost the plane should cost ${1.1*C_flyaway:,.2f}.\n"
+      f"To make a 10% profit on the total plane cost (production + RDT&E) the plane should cost ${1.1 * C_aircraft:,.2f}.\n")
+
 # (C) DOC: Direct Operating Costs
 # DOC = COC + FOC
 
@@ -181,15 +192,15 @@ def C_crew(AF, K, MTOW, tb, CEF):
 
 # Attendants (Not applicable)
 
-# Fuel
+# Fuel (multiplied by number of missions)
 def C_fuel(W_f, P_f, rho_f):
     C_fuel = 1.02 * W_f * (P_f/rho_f)
     return C_fuel
 
-# For hybrid electric propulsion
-def C_electric(W_b, P_elec, e_elec):
+# For hybrid electric propulsion (multiplied by number of missions)
+'''def C_electric(W_b, P_elec, e_elec):
     C_electric = 1.05 * W_b * P_elec * e_elec
-    return C_electric
+    return C_electric'''
 
 # Oil (neglected for now)
 '''def C_oil(W_f, tb, P_oil, rho_oil)
@@ -234,18 +245,18 @@ def C_EngMain(n_engines, n_engines_turbo, C_ML_engine, C_MM_engine, C_ML_turbo, 
     return C_EngMain
 
 #Electric motor cost
-def C_motors(motor_hp):
+'''def C_motors(motor_hp):
     C_motors = 150*motor_hp
-    return C_motors
+    return C_motors'''
 
 #Battery cost
-def C_battery(battery_kWh):
+'''def C_battery(battery_kWh):
     C_battery = 520 * battery_kWh
-    return C_battery
+    return C_battery'''
 
 #Annual Utilization
-def U_annual(tb):
-    U_annual = 1.5 * (10**3) * (3.4546 * tb + 2.994 - (12.289 * (tb ** 2) - 5.6626 * tb + 8.964)**0.5)
+def U_annual(tb, day_use):
+    U_annual = tb * day_use
     return U_annual
 
 # Insurance
@@ -258,9 +269,14 @@ def C_depreciation(C_flyaway, K_depreciation, tb, n, U_annual):
     C_depreciation = (C_flyaway * (1- K_depreciation) * tb)/(n * U_annual)
     return C_depreciation
 
+#COC
+def COC(C_crew, C_fuel, C_airport, C_navigation, C_AirMain, C_EngMain):
+    COC = C_crew + C_fuel + C_airport + C_navigation + C_AirMain + C_EngMain
+    return COC
+
 #Direct Operating Costs
-def DOC(C_crew, C_fuel, C_electric, C_airport, C_navigation, C_AirMain, C_EngMain, C_battery, C_motors, C_insurance, C_depreciation):
-    DOC = C_crew + C_fuel + C_electric + C_airport + C_navigation + C_AirMain + C_EngMain + C_battery + C_motors + C_insurance + C_depreciation
+def DOC(COC, C_insurance, C_depreciation):
+    DOC = COC + C_insurance + C_depreciation
     return DOC
 
 # Financing
@@ -279,7 +295,6 @@ def DOC_total(DOC, C_registration, C_financing):
 
 C_crew = C_crew(AF, K, MTOW, tb, CEF)
 C_fuel = C_fuel(W_f, P_f, rho_f)
-C_electric = C_electric(W_b, P_elec, e_elec)
 C_airport = C_airport(MTOW, CEF)
 C_navigation = C_navigation(CEF, R, tb, MTOW)
 C_AirMain = C_AirMain(W_A, RL, CEF, C_airframe, tb)
@@ -287,14 +302,13 @@ C_ML_engine = C_ML_engine(T_max, tb, RL)
 C_MM_engine = C_MM_engine(T_max, tb, CEF)
 C_ML_turbo = C_ML_turbo(SHP_TO, n_engines_turbo, H_em, RL)
 C_EngMain = C_EngMain(n_engines, n_engines_turbo, C_ML_engine, C_MM_engine, C_ML_turbo, tb)
-C_motors = C_motors(motor_hp)
-C_battery = C_battery(battery_kWh)
-U_annual = U_annual(tb)
+U_annual = U_annual(tb, year_use)
 C_insurance = C_insurance(tb, IR_a, C_aircraft, U_annual)
 C_depreciation = C_depreciation(C_flyaway, K_depreciation, tb, n, U_annual)
-DOC = DOC(C_crew, C_fuel, C_electric, C_airport, C_navigation, C_AirMain, C_EngMain, C_battery, C_motors, C_insurance, C_depreciation)
+COC = COC(C_crew, C_fuel, C_airport, C_navigation, C_AirMain, C_EngMain)
+DOC = DOC(COC, C_insurance, C_depreciation)
 C_financing = C_financing(DOC)
 C_registration = C_registration(MTOW, DOC)
 DOC_total = DOC_total(DOC, C_registration, C_financing)
 
-print(f"The Direct Operating Cost is {DOC_total}")
+print(f"The Cash Operating Cost is ${COC:,.2f}. The Direct Operating Cost is ${DOC_total:,.2f}.")
