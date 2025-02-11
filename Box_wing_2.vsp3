@@ -9,14 +9,14 @@
         <CORX Value="0.000000000000000000e+00" ID="OOWSUOQLZMA"/>
         <CORY Value="0.000000000000000000e+00" ID="WWCSRWAQIRB"/>
         <CORZ Value="0.000000000000000000e+00" ID="IKSPFFZVEFJ"/>
-        <PanX Value="-9.062073230743408203e-01" ID="CSRBNIOMVFT"/>
-        <PanY Value="-8.776428222656250000e+00" ID="ZFMIUXDLGIU"/>
-        <RotationX Value="1.498622563340440372e+01" ID="CJNEDRUASVG"/>
-        <RotationY Value="-8.301454947425268927e+01" ID="DAIVMLDFOHQ"/>
-        <RotationZ Value="-1.003667475135076330e+02" ID="HQHFYOIVILS"/>
+        <PanX Value="-9.008453369140625000e+00" ID="CSRBNIOMVFT"/>
+        <PanY Value="-7.760592460632324219e+00" ID="ZFMIUXDLGIU"/>
+        <RotationX Value="3.354172712704446724e+01" ID="CJNEDRUASVG"/>
+        <RotationY Value="-5.616412986573251231e+01" ID="DAIVMLDFOHQ"/>
+        <RotationZ Value="-6.907444073676931851e+01" ID="HQHFYOIVILS"/>
         <ViewportX Value="1.138000000000000000e+03" ID="QRGBCEDRSJI"/>
         <ViewportY Value="9.900000000000000000e+02" ID="ZBLRIYSXUPF"/>
-        <Zoom Value="6.157109513878822327e-02" ID="ARBZIBLEAFW"/>
+        <Zoom Value="5.506239831447601318e-02" ID="ARBZIBLEAFW"/>
       </AdjustView>
       <AdvLinkSettings>
         <AdvLinkDefNameContainer Value="1.000000000000000000e+00" ID="BQWLUFHPHGM"/>
@@ -512,7 +512,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -2848,7 +2848,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -2879,7 +2879,7 @@
         <BBox>
           <X_Len Value="6.777777777777778567e+00" ID="YTCWGQUEWWP"/>
           <X_Min Value="2.872950819672131217e+01" ID="HRJOLVJQNTS"/>
-          <Y_Len Value="1.356082874079265421e+00" ID="FFUFGYDGMGZ"/>
+          <Y_Len Value="1.356082874079265643e+00" ID="FFUFGYDGMGZ"/>
           <Y_Min Value="-6.780414370396327106e-01" ID="GVQRGRBUYBJ"/>
           <Z_Len Value="8.128505547350815874e+00" ID="KOLQAYUSAJN"/>
           <Z_Min Value="2.459016393442627624e-01" ID="CRHUVFXKIRI"/>
@@ -2957,11 +2957,11 @@
           <RotateAirfoilMatchDideralFlag Value="0.000000000000000000e+00" ID="FJIJMDOSVJU"/>
           <SmallPanelW Value="2.964955927309945866e-02" ID="CEEEQFDMNMO"/>
           <TECluster Value="2.500000000000000000e-01" ID="RSTGNUVEUUK"/>
-          <TotalAR Value="1.656532456861133928e+00" ID="NPWUFCAJDLO"/>
+          <TotalAR Value="1.656532456861133706e+00" ID="NPWUFCAJDLO"/>
           <TotalArea Value="3.863492063492063266e+01" ID="ZYZZJHFZVAT"/>
-          <TotalChord Value="4.829365079365079083e+00" ID="KDOGMNSWVBE"/>
-          <TotalProjectedSpan Value="8.000000000000000000e+00" ID="RTVGFXJRCOQ"/>
-          <TotalSpan Value="8.000000000000000000e+00" ID="FJWYSLPJKVL"/>
+          <TotalChord Value="4.829365079365079971e+00" ID="KDOGMNSWVBE"/>
+          <TotalProjectedSpan Value="7.999999999999999112e+00" ID="RTVGFXJRCOQ"/>
+          <TotalSpan Value="7.999999999999999112e+00" ID="FJWYSLPJKVL"/>
         </WingGeom>
         <XForm>
           <Abs_Or_Relitive_flag Value="1.000000000000000000e+00" ID="AAQCPDLXLDF"/>
@@ -3008,7 +3008,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -3023,9 +3023,9 @@
               <ID>NDWCDXMTGA</ID>
               <Name>XSec</Name>
               <XSec>
-                <Area Value="3.888888888888888840e+00" ID="REJYZQZCCCC"/>
+                <Area Value="3.888888888888889284e+00" ID="REJYZQZCCCC"/>
                 <Aspect Value="2.571428571428571730e-01" ID="TYMEBMVKAOS"/>
-                <Avg_Chord Value="3.888888888888888840e+00" ID="RKISLPSCMDY"/>
+                <Avg_Chord Value="3.888888888888889284e+00" ID="RKISLPSCMDY"/>
                 <Dihedral Value="0.000000000000000000e+00" ID="JWGPRUEYNWE"/>
                 <InCluster Value="1.000000000000000000e+00" ID="IOWOPHLEOIL"/>
                 <InLEDihedral Value="7.880048531035606531e-15" ID="ESNDWUUNFJH"/>
@@ -3054,8 +3054,8 @@
                 <Span Value="1.000000000000000000e+00" ID="GHAPKVSWNRY"/>
                 <Sweep Value="0.000000000000000000e+00" ID="TLJKINMCOKD"/>
                 <Sweep_Location Value="0.000000000000000000e+00" ID="SFHOPDVOXER"/>
-                <Taper Value="6.777777777777777679e+00" ID="TWNAVBCAAKV"/>
-                <Tip_Chord Value="6.777777777777777679e+00" ID="MFCPAWBGXWO"/>
+                <Taper Value="6.777777777777778567e+00" ID="TWNAVBCAAKV"/>
+                <Tip_Chord Value="6.777777777777778567e+00" ID="MFCPAWBGXWO"/>
                 <Twist Value="0.000000000000000000e+00" ID="MYTFCJUYZPI"/>
                 <Twist_Location Value="2.500000000000000000e-01" ID="RJZTIYAIJPY"/>
               </XSec>
@@ -3142,7 +3142,7 @@
                     <Camber Value="0.000000000000000000e+00" ID="DUBYHLSUJGY"/>
                     <CamberInputFlag Value="0.000000000000000000e+00" ID="UQCKXPMFDKU"/>
                     <CamberLoc Value="2.000000000000000111e-01" ID="BFPOWQUWBGP"/>
-                    <Chord Value="6.777777777777777679e+00" ID="HCYUSUJMPLN"/>
+                    <Chord Value="6.777777777777778567e+00" ID="HCYUSUJMPLN"/>
                     <DeltaX Value="0.000000000000000000e+00" ID="GWRXBYOVKNM"/>
                     <DeltaY Value="0.000000000000000000e+00" ID="YZVPKLNCNUC"/>
                     <FitDegree Value="7.000000000000000000e+00" ID="DEMNTNOSRHK"/>
@@ -3183,8 +3183,8 @@
               <Name>XSec</Name>
               <XSec>
                 <Area Value="3.863492063492063266e+01" ID="LKWSQQAVJDI"/>
-                <Aspect Value="1.656532456861133928e+00" ID="IJAUVNWIWYT"/>
-                <Avg_Chord Value="4.829365079365079083e+00" ID="SYQJNOAHXRI"/>
+                <Aspect Value="1.656532456861133484e+00" ID="IJAUVNWIWYT"/>
+                <Avg_Chord Value="4.829365079365079971e+00" ID="SYQJNOAHXRI"/>
                 <Dihedral Value="0.000000000000000000e+00" ID="AHJWFDDFLDF"/>
                 <InCluster Value="1.000000000000000000e+00" ID="QYHUUJIXWTA"/>
                 <InLEDihedral Value="7.880048531035606531e-15" ID="HHZRIHWNPZI"/>
@@ -3204,17 +3204,17 @@
                 <OutTEMode Value="0.000000000000000000e+00" ID="NTVWPJHSTJE"/>
                 <OutTEStrength Value="1.000000000000000000e+00" ID="TYALHDYQXKH"/>
                 <OutTESweep Value="-1.191323614384458551e+00" ID="HJGTBJUOPOP"/>
-                <ProjectedSpan Value="8.000000000000000000e+00" ID="PDUTGINSJEM"/>
-                <Root_Chord Value="6.777777777777777679e+00" ID="MBGTIRPSRYE"/>
+                <ProjectedSpan Value="7.999999999999999112e+00" ID="PDUTGINSJEM"/>
+                <Root_Chord Value="6.777777777777778567e+00" ID="MBGTIRPSRYE"/>
                 <RotateMatchDideralFlag Value="0.000000000000000000e+00" ID="HBEVJRXLBCJ"/>
-                <Sec_Sweep Value="-1.191323614384411256e+00" ID="HPLIIQBGEUW"/>
+                <Sec_Sweep Value="-1.191323614384417695e+00" ID="HPLIIQBGEUW"/>
                 <Sec_Sweep_Location Value="1.000000000000000000e+00" ID="TEXOYEQCVFQ"/>
                 <SectTess_U Value="6.000000000000000000e+00" ID="DJWZGFTKILH"/>
-                <Span Value="8.000000000000000000e+00" ID="UOYOADFNRGS"/>
+                <Span Value="7.999999999999999112e+00" ID="UOYOADFNRGS"/>
                 <Sweep Value="2.500000000000000000e+01" ID="VVGRKEWYRLO"/>
                 <Sweep_Location Value="0.000000000000000000e+00" ID="FHTGECOVSPT"/>
                 <Taper Value="4.250585480093677093e-01" ID="GDINTQKRJND"/>
-                <Tip_Chord Value="2.880952380952380931e+00" ID="ICZAFQPEPXQ"/>
+                <Tip_Chord Value="2.880952380952381375e+00" ID="ICZAFQPEPXQ"/>
                 <Twist Value="0.000000000000000000e+00" ID="SPNGFYFYCLY"/>
                 <Twist_Location Value="2.500000000000000000e-01" ID="GTYRJQERGZV"/>
               </XSec>
@@ -3297,11 +3297,11 @@
                     <TE_Trim_X_Chord Value="0.000000000000000000e+00" ID="BFXKXXPIHYJ"/>
                   </Trim>
                   <XSecCurve>
-                    <Area Value="5.634428939694040572e-01" ID="KKYBHFHKNDX"/>
+                    <Area Value="5.634428939694043903e-01" ID="KKYBHFHKNDX"/>
                     <Camber Value="0.000000000000000000e+00" ID="CZZPDRKWZMX"/>
                     <CamberInputFlag Value="0.000000000000000000e+00" ID="EGXSWPQSNTN"/>
                     <CamberLoc Value="2.000000000000000111e-01" ID="NCAILVUZELD"/>
-                    <Chord Value="2.880952380952380931e+00" ID="WIKBSWYIISS"/>
+                    <Chord Value="2.880952380952381375e+00" ID="WIKBSWYIISS"/>
                     <DeltaX Value="0.000000000000000000e+00" ID="NLACKNOSAGV"/>
                     <DeltaY Value="0.000000000000000000e+00" ID="LMMWFSWUEHU"/>
                     <FitDegree Value="7.000000000000000000e+00" ID="ZQUZATJXUSF"/>
@@ -3494,7 +3494,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -4143,7 +4143,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -4802,7 +4802,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -6620,7 +6620,7 @@
         </ParasiteDragProps>
         <PropGeom>
           <MaxGrowth Value="1.963769402454648594e+00" ID="BVYXOHYSKGY"/>
-          <SmallPanelW Value="0.000000000000000000e+00" ID="ZGDHXOHDSHR"/>
+          <SmallPanelW Value="1.000000000000000000e+12" ID="ZGDHXOHDSHR"/>
         </PropGeom>
         <Shape>
           <Tess_U Value="1.200000000000000000e+01" ID="GQGOCRMPQDC"/>
@@ -6646,7 +6646,7 @@
           <X_Location Value="2.872950819672130862e+01" ID="BUMEHCZSXCH"/>
           <X_Rel_Location Value="1.700819672131146376e+00" ID="DIJXRHEIFIC"/>
           <X_Rel_Rotation Value="0.000000000000000000e+00" ID="WREECQAAYWJ"/>
-          <X_Rotation Value="-0.000000000000000000e+00" ID="DXURZMLBRQA"/>
+          <X_Rotation Value="0.000000000000000000e+00" ID="DXURZMLBRQA"/>
           <Y_Location Value="0.000000000000000000e+00" ID="AKEHMCWAJNR"/>
           <Y_Rel_Location Value="0.000000000000000000e+00" ID="IQDOKERAAFI"/>
           <Y_Rel_Rotation Value="0.000000000000000000e+00" ID="WXQFKFIVRMY"/>
@@ -6687,7 +6687,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -7449,7 +7449,7 @@
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
@@ -7935,9 +7935,9 @@
     <Set>All</Set>
     <Set>Shown</Set>
     <Set>Not_Shown</Set>
-    <Set>Set_0</Set>
-    <Set>Set_1</Set>
-    <Set>Set_2</Set>
+    <Set>Lower_wing_fuselage</Set>
+    <Set>Upper_wing</Set>
+    <Set>Full_aircraft</Set>
     <Set>Set_3</Set>
     <Set>Set_4</Set>
     <Set>Set_5</Set>
