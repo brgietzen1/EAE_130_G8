@@ -43,11 +43,11 @@ W_cruise = 12214
 #takeoff weight [lbm]
 W_takeoff = 12214
 #landing weight [lbm] !!!
-W_landing = 12000
+W_landing = 12214
 #cruise speed [ft/s] potentially 267
 v_cruise = 212 
 #propeller efficiency
-eta_p = 0.8
+eta_p = 0.9
 #dynamic pressure at cruise [lbf/ft^2] slugs/ft^3 * ft^2/s^2 = slugs/ft/s^2 = lbf/s^2/ft^2
 q_cruise = (1/2*rho_cruise * v_cruise**2)
 #power at cruise [hp]
@@ -149,20 +149,20 @@ plt.plot(wing_loading, maneuver_constraint_power, label='Maneuver')
 plt.axvline(x=wing_loading_stall_maneuver, color = 'y', linestyle = '-', label='Maneuver Stall')
 plt.axvline(x=wing_loading_stall, color='m', linestyle='-', label='Stall')
 plt.axvline(x=wing_loading_landing_corrected, color='c', linestyle='-', label='Landing')
-plt.axis([0, 60, 0, 40])
+plt.axis([0, 70, 0, 50])
 plt.legend(loc=(.8, .6))
 plt.grid()
-plt.fill_between(wing_loading, 0, cruise_constraint_corrected_power, where=wing_loading<=wing_loading_landing_corrected)
-plt.scatter(31.5, 24.75, color='red',s=50,zorder=2, label='Optimal Design Point')
-plt.scatter(31.8, 22, color='magenta',s=50,zorder=2)
-plt.text(27, 26, "Optimal Design Point")
-plt.text(27, 19, "Chosen Design Point")
+x_range = (wing_loading >= 22.2) & (wing_loading <= 31.375) 
+plt.fill_between(wing_loading, 0, cruise_constraint_corrected_power, where=wing_loading<=23, color='skyblue')
+plt.fill_between(wing_loading[x_range], 0, climb_constraint_corrected_power2[x_range], color='skyblue')
+plt.scatter(31.25, 22.2, color='red',s=70,zorder=2)
+plt.scatter(22.65, 26, color='red', s=70,zorder=2)
 plt.title("Power Loading (W/P) vs. Wing Loading (W/S)")
 plt.xlabel("W/S [lbs/ft\u00b2]")
 plt.ylabel("W/P [lbs/hp]")
 plt.show()
 
-plt.figure()
+'''plt.figure()
 plt.plot(wing_loading, takeoff_constraint, label='takeoff')
 plt.plot(wing_loading, np.ones_like(wing_loading)*climb_constraint_corrected, label='takeoff climb')
 plt.plot(wing_loading, np.ones_like(wing_loading)*climb_constraint_corrected2, label='balked climb')
@@ -178,4 +178,4 @@ plt.grid()
 plt.title("Power Loading (W/P) vs. Wing Loading (W/S)")
 plt.xlabel("W/S [lbm/ft\u00b2]")
 plt.ylabel("T/W [lbm/lbf]")
-plt.show()
+plt.show()'''
