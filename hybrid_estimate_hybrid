@@ -2,7 +2,6 @@ import numpy as np
 
 # Weight Estimate Calculator for Fueled Propeller Aircraft
 
-
 def RaymerMethod(W_naught,A,C):
     
     """Uses existing regression analyses to calculate the empty weight of the aircraft
@@ -202,10 +201,10 @@ def solve_takeoff_weight(crew_weight, payload_weight, A, C, cruise_segments, loi
 
 ############################### USE CODE STARTING HERE ###########################
 crew_weight = 190  # lbf
-payload_weight = 2500  # lbf
+payload_weight = 4000  # lbf
 A = 0.74              # Raymer constant for "Agricultural aircraft" (Table 3.1)
 C = -0.03             # Raymer constant for "Agricultural aircraft" (Table 3.1)
-H = .1             # Degree hybridization in terms of maximum power of electric motor over total aircraft power
+H = 0             # Degree hybridization in terms of maximum power of electric motor over total aircraft power
 e_f = 12800          # Fuel specific energy in Wh/kg (using Jet-A)
 e_b = 260            # battery specific energy in Wh/kg
 eta_prop = 0.8        # efficiency of propeller
@@ -215,12 +214,12 @@ tol = 1e-6            # Convergence tolerance
 
 # Define flight segments
 cruise_segments = [
-    (26400, 0.6, 0.82, 6),  # Range in ft, specific fuel consumption in lbm/hp/hr, propeller efficiency, L/D
-    (688545, 0.6, 0.82, 6),
-    (26400, 0.6, 0.82, 6),
+    (151903, 0.6, 0.82, 7.56),  # Range in ft, specific fuel consumption in lbm/hp/hr, propeller efficiency, L/D
+    (1033065, 0.6, 0.82, 7.56),
+    (151903, 0.6, 0.82, 7.56),
 ]
 loiter_segments = [
-    (0.5, 180, 0.6, 0.72, 9),  # Endurance in hrs, velocity in ft/s, specific fuel consumption lbm/hp/hr, propeller efficiency, L/D
+    (0.5, 180, 0.6, 0.72, 10.58),  # Endurance in hrs, velocity in ft/s, specific fuel consumption lbm/hp/hr, propeller efficiency, L/D
 ]
 other_segments = [0.996,0.995,0.996,0.998,0.999,0.998,0.999,0.998]  # Estimated weight fractions for non-cruise/loiter phases
 
