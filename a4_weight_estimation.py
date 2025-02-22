@@ -243,7 +243,7 @@ def solve_takeoff_weight_2(S_o, P_i, S_design, P_design, tol = 1e-6, max_iter=10
     raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
     
 ################################################# Example for solving for takeoff weight #######################################
-W_design = 12214.12 # lbs
+'''W_design = 12214.12 # lbs
 WP_design = 22.2
 WS_design = 31.25
 
@@ -264,4 +264,4 @@ print(f"  Takeoff Weight (W_naught): {takeoff_weight:.2f} lbs")
 print(f"  Empty Weight Fraction: {empty_weight_frac:.4f}")
 print(f"  Fuel Weight Fraction: {fuel_weight_frac:.4f}")
 print(f"  Empty Weight: {empty_weight:.2f} lbs")
-print(f"  Fuel Weight: {fuel_weight:.2f} lbs")
+print(f"  Fuel Weight: {fuel_weight:.2f} lbs")'''
