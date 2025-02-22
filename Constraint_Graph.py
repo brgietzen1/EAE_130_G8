@@ -59,8 +59,8 @@ R_turn = 1800'''
 
 
 #Stall Constraint (plot on x axis as vertical line)
-def stall_constraint(v_stall_TO, rho_ground, cl_max):
-    wing_loading_stall = 1/2 * rho_ground * v_stall_TO**2 * cl_max
+def stall_constraint(v_stall, rho_cruise, cl_max):
+    wing_loading_stall = 1/2 * rho_cruise * v_stall**2 * cl_max
     return wing_loading_stall
 
 #Takeoff constraint (function of W/S) !POWER CORRECTION
@@ -113,19 +113,19 @@ def ceiling_constraint(e, AR, cd_0, rho_cruise, cl_max_cruise, wing_loading, eta
     return ceiling_constraint, ceiling_constraint_power
 
 #Manuever constraint (function of W/S) !POWER CORRECTION
-def maneuver_constraint(e, AR, v_stall_flight, R_turn, W_cruise, W_takeoff, q_cruise, cd_0, wing_loading, rho_ground, cl_max_TO, eta_p):
+def maneuver_constraint(e, AR, v_stall_flight, R_turn, W_cruise, W_takeoff, q_cruise, cd_0, wing_loading, rho_ground, cl_max, eta_p, P_cruise, P_takeoff):
     k = 1 / (np.pi* e * AR)
     g = 32.2
     n = np.sqrt((v_stall_flight**2 / R_turn / g)**2 + 1)
     wing_loading_maneuver = wing_loading * (W_cruise/W_takeoff)
     maneuver_constraint = q_cruise*cd_0/wing_loading + k * n**2 / q_cruise * wing_loading_maneuver
-    V = np.sqrt(2/rho_ground / cl_max_TO * wing_loading_maneuver)
+    V = np.sqrt(2/rho_ground / cl_max * wing_loading_maneuver)
     maneuver_constraint_power = 1/((V / eta_p / 550 * maneuver_constraint) * (W_cruise / W_takeoff) / (P_cruise / P_takeoff))
     return maneuver_constraint, maneuver_constraint_power, n
 
 #Maneuver stall Constraint (plot on x axis as vertical line)
-def stall_constraint_maneuver(rho_cruise, v_stall_flight, cl_max_TO, n, W_cruise, W_takeoff):
-    wing_loading_stall_maneuver = 1/2 * rho_cruise * (v_stall_flight/np.sqrt(n))**2 * cl_max_TO
+def stall_constraint_maneuver(rho_cruise, v_stall_flight, cl_max, n, W_cruise, W_takeoff):
+    wing_loading_stall_maneuver = 1/2 * rho_cruise * (v_stall_flight/np.sqrt(n))**2 * cl_max
     wing_loading_stall_maneuver_corrected = wing_loading_stall_maneuver / (W_cruise / W_takeoff)
     return wing_loading_stall_maneuver_corrected
 
@@ -136,7 +136,7 @@ climb_constraint_corrected, climb_constraint_corrected_power = climb_constraint(
 climb_constraint_corrected2, climb_constraint_corrected_power2 = climb_constraint(wing_loading, .97, AR, k_s, .1136, cl_max_land, rho_ground, eta_p, W_landing, W_takeoff, 0.03)
 cruise_constraint_corrected, cruise_constraint_corrected_power = cruise_constraint(1.10, AR, W_cruise, W_takeoff, wing_loading, v_cruise, eta_p, q_cruise, cd_0, P_cruise, P_takeoff)
 ceiling_constraint, ceiling_constraint_power = ceiling_constraint(1.10, AR, cd_0, rho_cruise, cl_max_cruise, wing_loading, eta_p, W_cruise, W_takeoff, P_cruise, P_takeoff)
-maneuver_constraint, maneuver_constraint_power, n = maneuver_constraint(1.10, AR, v_stall_flight, R_turn, W_cruise, W_takeoff, q_cruise, cd_0, wing_loading, rho_ground, cl_max_cruise, eta_p)
+maneuver_constraint, maneuver_constraint_power, n = maneuver_constraint(1.10, AR, v_stall_flight, R_turn, W_cruise, W_takeoff, q_cruise, cd_0, wing_loading, rho_ground, cl_max_cruise, eta_p, P_cruise, P_takeoff)
 wing_loading_stall_maneuver = stall_constraint_maneuver(rho_cruise, v_stall_flight, cl_max_cruise, n, W_cruise, W_takeoff)
 
 plt.figure()
