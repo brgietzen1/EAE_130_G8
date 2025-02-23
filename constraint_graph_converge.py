@@ -187,7 +187,7 @@ S_landing, P_landing = landing_constraint_converge(s_L=1500, s_a=500, cl_max_lan
 S_stall_maneuver, P_stall_maneuver = stall_constraint_maneuver_converge(rho_cruise=.002048, v_stall_flight=145, cl_max_TO=1.6, n=(np.sqrt((145**2 / 1800 / 32.2)**2 + 1)))
 
 
-plt.figure()
+'''plt.figure()
 plt.plot(S_takeoff, P_takeoff, label='Takeoff')
 plt.plot(S_climb1, P_climb1, label='Takeoff Climb')
 plt.plot(S_climb2, P_climb2, label='Balked Climb')
@@ -210,5 +210,56 @@ plt.legend()
 plt.grid()
 plt.title("Power (P) vs. Wing Area (S)")
 plt.xlabel("S [ft\u00b2]")
+plt.ylabel("P [hp]")
+plt.show()'''
+
+from scipy.interpolate import interp1d
+
+# Interpolate landing constraint
+sort_idx_land = np.argsort(S_landing)
+S_land_sorted = S_landing[sort_idx_land]
+P_land_sorted = P_landing[sort_idx_land]
+P_land_interp = interp1d(S_land_sorted, P_land_sorted, bounds_error=False, fill_value='extrapolate')
+
+# Interpolate stall constraint if necessary
+sort_idx_stall = np.argsort(S_stall)
+S_stall_sorted = S_stall[sort_idx_stall]
+P_stall_sorted = P_stall[sort_idx_stall]
+P_stall_interp = interp1d(S_stall_sorted, P_stall_sorted, bounds_error=False, fill_value='extrapolate')
+
+plt.figure()
+plt.plot(S_takeoff, P_takeoff, label='Takeoff')
+plt.plot(S_climb1, P_climb1, label='Takeoff Climb')
+plt.plot(S_climb2, P_climb2, label='Balked Climb')
+plt.plot(S_cruise, P_cruise, label='Cruise')
+plt.plot(S_ceiling, P_ceiling, label='Ceiling')
+plt.plot(S_maneuver, P_maneuver, label='Maneuver')
+plt.plot(S_stall, P_stall, label='Stall')
+plt.plot(S_landing, P_landing, label='Landing Distance')
+plt.plot(S_stall_maneuver, P_stall_maneuver, label='Maneuver Stall Distance')
+
+plt.axis([200, 600, 150, 900])
+plt.scatter(320.5, 453.5, color='red', s=70, zorder=2)
+
+x = np.linspace(200, 600, 1000)
+
+# Correct fill_between using interpolated values
+# Region 1: 350-425 between climb2 and cruise
+x_range1 = (x >= 350) & (x <= 425)
+plt.fill_between(x[x_range1], P_climb2[x_range1], 900, color='skyblue')
+
+# Region 2: 425-600 between cruise and ceiling (or other upper constraints)
+x_range2 = (x >= 425) & (x <= 600)
+plt.fill_between(x[x_range2], P_cruise[x_range2], 900, color='skyblue')
+
+# Region 3: 320.5-350 between landing and climb2
+x_range3 = (x >= 320.5) & (x <= 350)
+P_land_region3 = P_land_interp(x[x_range3])  # Interpolate landing P for this S range
+plt.fill_between(x[x_range3], P_land_region3, P_climb2[x_range3], color='skyblue')
+
+plt.legend()
+plt.grid()
+plt.title("Power (P) vs. Wing Area (S)")
+plt.xlabel("S [ft²]")
 plt.ylabel("P [hp]")
 plt.show()
