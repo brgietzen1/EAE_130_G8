@@ -12,7 +12,7 @@ def takeoff_constraint_converge(s_TO, rho_ground, rho_sea, cl_max_TO, eta_p):
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -35,7 +35,7 @@ def climb_constraint_converge(e, AR, k_s, cd_0, cl_max_climb, rho, eta_p, G):
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -58,7 +58,7 @@ def cruise_constraint_converge(e, AR, v_cruise, eta_p, q_cruise, cd_0):
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -80,7 +80,7 @@ def ceiling_constraint_converge(e, AR, cd_0, rho_cruise, cl_max_cruise, eta_p):
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -103,7 +103,7 @@ def maneuver_constraint_converge(e, AR, v_stall_flight, R_turn, q_cruise, cd_0, 
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S_0, P[i], S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -125,7 +125,7 @@ def stall_constraint_converge(v_stall, rho_cruise, cl_max):
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S[i], P_0, S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S[i], P_0, S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -145,7 +145,7 @@ def landing_constraint_converge(s_L, s_a, cl_max_land, rho_ground, rho_sea):
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S[i], P_0, S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S[i], P_0, S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -165,7 +165,7 @@ def stall_constraint_maneuver_converge(rho_cruise, v_stall_flight, cl_max_TO, n)
         tolerance = .001
         converged = False
         while converged == False:
-            results = we.solve_takeoff_weight_2(S[i], P_0, S_design = 12214.12 / 31.25, P_design = 12214.12 / 17.2)
+            results = we.solve_takeoff_weight_2(S[i], P_0, S_design = 12214.12 / 22.8, P_design = 12214.12 / 20.2)
             takeoff_weight, empty_weight_frac, fuel_weight_frac,\
             empty_weight, fuel_weight, iterations = results
             W = takeoff_weight
@@ -198,6 +198,14 @@ plt.plot(S_stall, P_stall, label='Stall')
 plt.plot(S_landing, P_landing, label='Landing Distance')
 plt.plot(S_stall_maneuver, P_stall_maneuver, label='Maneuver Stall Distance')
 plt.axis([200, 600, 150, 900])
+plt.scatter(320.5, 453.5, color='red',s=70,zorder=2)
+x = np.linspace(200, 600, 1000)
+x_range = (x >= 350) & (x <= 425) 
+plt.fill_between(x[x_range], P_climb2[x_range], 900, color='skyblue' )
+x_range2 = (x >= 425) & (x <= 600) 
+plt.fill_between(x[x_range2], P_cruise[x_range2], 900, color='skyblue' )
+x_range3 = (x >= 320.5) & (x <= 350) 
+plt.fill_between(S_landing[350:], P_climb2[350:], P_landing[350:], color='skyblue')
 plt.legend()
 plt.grid()
 plt.title("Power (P) vs. Wing Area (S)")
