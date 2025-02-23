@@ -45,9 +45,9 @@ AF = 0.8
 K = 2.75
 #Total takeoff shaft horsepower (all engines added up)
 SHP_TO = 1295
-#Mission time
+#Mission time (fuel weight / specfic fuel consumption / shaft horsepower)
 mission_time = fuel_weight / .6 / 1295
-#Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement)
+#Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement - mission time plus a half hour buffer)
 tb = .5 + mission_time
 #Hours per year used
 year_use = 344
@@ -193,14 +193,14 @@ def C_crew(AF, K, MTOW, tb, CEF):
 # Attendants (Not applicable)
 
 # Fuel (multiplied by number of missions)
-def C_fuel(W_f, P_f, rho_f, year_use, mission_time, n):
-    C_fuel = 1.02 * W_f * (P_f/rho_f) * year_use / mission_time * n
+def C_fuel(W_f, P_f, rho_f):
+    C_fuel = 1.02 * W_f * (P_f/rho_f)
     return C_fuel
 
 # For hybrid electric propulsion (multiplied by number of missions)
-def C_electric(W_b, P_elec, e_elec, year_use, mission_time, n):
-    C_electric = 1.05 * W_b * P_elec * e_elec * year_use / mission_time * n
-    return C_electric
+'''def C_electric(W_b, P_elec, e_elec):
+    C_electric = 1.05 * W_b * P_elec * e_elec
+    return C_electric'''
 
 # Oil (neglected for now)
 '''def C_oil(W_f, tb, P_oil, rho_oil)
@@ -245,14 +245,14 @@ def C_EngMain(n_engines, n_engines_turbo, C_ML_engine, C_MM_engine, C_ML_turbo, 
     return C_EngMain
 
 #Electric motor cost
-def C_motors(motor_hp):
+'''def C_motors(motor_hp):
     C_motors = 150*motor_hp
-    return C_motors
+    return C_motors'''
 
 #Battery cost
-def C_battery(battery_kWh):
+'''def C_battery(battery_kWh):
     C_battery = 520 * battery_kWh
-    return C_battery
+    return C_battery'''
 
 #Annual Utilization
 def U_annual(tb, day_use):
@@ -269,9 +269,14 @@ def C_depreciation(C_flyaway, K_depreciation, tb, n, U_annual):
     C_depreciation = (C_flyaway * (1- K_depreciation) * tb)/(n * U_annual)
     return C_depreciation
 
+#COC
+def COC(C_crew, C_fuel, C_airport, C_navigation, C_AirMain, C_EngMain):
+    COC = C_crew + C_fuel + C_airport + C_navigation + C_AirMain + C_EngMain
+    return COC
+
 #Direct Operating Costs
-def DOC(C_crew, C_fuel, C_electric, C_airport, C_navigation, C_AirMain, C_EngMain, C_battery, C_motors, C_insurance, C_depreciation):
-    DOC = C_crew + C_fuel + C_electric + C_airport + C_navigation + C_AirMain + C_EngMain + C_battery + C_motors + C_insurance + C_depreciation
+def DOC(COC, C_insurance, C_depreciation):
+    DOC = COC + C_insurance + C_depreciation
     return DOC
 
 # Financing
@@ -289,8 +294,7 @@ def DOC_total(DOC, C_registration, C_financing):
     return DOC_total
 
 C_crew = C_crew(AF, K, MTOW, tb, CEF)
-C_fuel = C_fuel(W_f, P_f, rho_f, year_use, mission_time, n)
-C_electric = C_electric(W_b, P_elec, e_elec, year_use, mission_time, n)
+C_fuel = C_fuel(W_f, P_f, rho_f)
 C_airport = C_airport(MTOW, CEF)
 C_navigation = C_navigation(CEF, R, tb, MTOW)
 C_AirMain = C_AirMain(W_A, RL, CEF, C_airframe, tb)
@@ -298,14 +302,13 @@ C_ML_engine = C_ML_engine(T_max, tb, RL)
 C_MM_engine = C_MM_engine(T_max, tb, CEF)
 C_ML_turbo = C_ML_turbo(SHP_TO, n_engines_turbo, H_em, RL)
 C_EngMain = C_EngMain(n_engines, n_engines_turbo, C_ML_engine, C_MM_engine, C_ML_turbo, tb)
-C_motors = C_motors(motor_hp)
-C_battery = C_battery(battery_kWh)
 U_annual = U_annual(tb, year_use)
 C_insurance = C_insurance(tb, IR_a, C_aircraft, U_annual)
 C_depreciation = C_depreciation(C_flyaway, K_depreciation, tb, n, U_annual)
-DOC = DOC(C_crew, C_fuel, C_electric, C_airport, C_navigation, C_AirMain, C_EngMain, C_battery, C_motors, C_insurance, C_depreciation)
+COC = COC(C_crew, C_fuel, C_airport, C_navigation, C_AirMain, C_EngMain)
+DOC = DOC(COC, C_insurance, C_depreciation)
 C_financing = C_financing(DOC)
 C_registration = C_registration(MTOW, DOC)
 DOC_total = DOC_total(DOC, C_registration, C_financing)
 
-print(f"The Direct Operating Cost is ${DOC_total:,.2f}.")
+print(f"The Cash Operating Cost is ${COC:,.2f}. The Direct Operating Cost is ${DOC_total:,.2f}.")
