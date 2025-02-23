@@ -79,7 +79,7 @@ def EngineWeight(P, prop_eta = 0.77):
 
     return W_eng
 
-def TaxiFraction(P, W, prop_eta = 0.80, c_SL = 0.60):
+def TaxiFraction(P, W, prop_eta = 0.77, c_SL = 0.60):
     """Calculates W_1/W_o or the fuel burn from running the engine for 15 min @ 5% max
         P: The required thrust power of the engine in horsepower
         W: Initial gross weight of the aircraft
@@ -91,7 +91,7 @@ def TaxiFraction(P, W, prop_eta = 0.80, c_SL = 0.60):
 
     return frac
 
-def TakeoffFraction(P, W, prop_eta = 0.80, c_SL = 0.60):
+def TakeoffFraction(P, W, prop_eta = 0.77, c_SL = 0.60):
     """Calculates W_2/W_1 or the fuel burn from running the engine at max power for 1 min
         P: The required thrust power of the engine in horsepower
         W: Gross weight of aircraft after taxi
