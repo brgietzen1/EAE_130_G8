@@ -242,13 +242,13 @@ plt.axis([200, 600, 200, 900])
 x1 = 5
 y1 = 5
 plt.scatter(320.5, 453.5/.77, color='red', s=70, zorder=2)
-plt.text(320.5+x1, 453.5/.77, 'Ceres-100 ($S$ = 321 ft², $P_{shaft}$ = 590 hp, W = ?)')
+plt.text(320.5+x1, 453.5/.77-y1, 'Ceres-100 ($S$ = 321 ft², $P_{shaft}$ = 590 hp, W = 10547 lbs)')
 plt.scatter(306, 680, color='red', s=70, zorder=2)
-plt.text(306+x1, 680, 'AT-402B ($S$ = 306 ft², $P_{shaft}$ = 680 hp, W = ?)')
+plt.text(306+x1, 680-y1, 'AT-402B ($S$ = 306 ft², $P_{shaft}$ = 680 hp, W = 9170 lbs)')
 plt.scatter(365, 750, color='red', s=70, zorder=2)
-plt.text(365+x1, 750, 'Thrush 510P2 ($S$ = 365 ft², $P_{shaft}$ = 750 hp, W = ?)')
+plt.text(365+x1, 750-y1, 'Thrush 510P2 ($S$ = 365 ft², $P_{shaft}$ = 750 hp, W = 10500 lbs)')
 plt.scatter(294, 750, color='red', s=70, zorder=2)
-plt.text(294-2*x1, 750+5*y1, 'PAC Cresco ($S$ = 294 ft², $P_{shaft}$ = 750 hp, W = ?)')
+plt.text(294-2*x1, 750+5*y1, 'PAC Cresco ($S$ = 294 ft², $P_{shaft}$ = 750 hp, W = 8250 lbs)')
 
 
 
@@ -257,16 +257,16 @@ x = np.linspace(200, 600, 1000)
 # Correct fill_between using interpolated values
 # Region 1: 350-425 between climb2 and cruise
 x_range1 = (x >= 350) & (x <= 425)
-plt.fill_between(x[x_range1], P_climb2[x_range1], 900, color='skyblue')
+plt.fill_between(x[x_range1], P_climb2[x_range1]/.77, 900, color='skyblue')
 
 # Region 2: 425-600 between cruise and ceiling (or other upper constraints)
 x_range2 = (x >= 425) & (x <= 600)
-plt.fill_between(x[x_range2], P_cruise[x_range2], 900, color='skyblue')
+plt.fill_between(x[x_range2], P_cruise[x_range2]/.77, 900, color='skyblue')
 
 # Region 3: 320.5-350 between landing and climb2
 x_range3 = (x >= 320.5) & (x <= 350)
 P_land_region3 = P_land_interp(x[x_range3])  # Interpolate landing P for this S range
-plt.fill_between(x[x_range3], P_land_region3, P_climb2[x_range3], color='skyblue')
+plt.fill_between(x[x_range3], P_land_region3/.77, P_climb2[x_range3]/.77, color='skyblue')
 
 plt.legend(loc=(.7, .1))
 plt.grid()
