@@ -228,18 +228,29 @@ P_stall_sorted = P_stall[sort_idx_stall]
 P_stall_interp = interp1d(S_stall_sorted, P_stall_sorted, bounds_error=False, fill_value='extrapolate')
 
 plt.figure()
-plt.plot(S_takeoff, P_takeoff, label='Takeoff')
-plt.plot(S_climb1, P_climb1, label='Takeoff Climb')
-plt.plot(S_climb2, P_climb2, label='Balked Climb')
-plt.plot(S_cruise, P_cruise, label='Cruise')
-plt.plot(S_ceiling, P_ceiling, label='Ceiling')
-plt.plot(S_maneuver, P_maneuver, label='Maneuver')
-plt.plot(S_stall, P_stall, label='Stall')
-plt.plot(S_landing, P_landing, label='Landing Distance')
-plt.plot(S_stall_maneuver, P_stall_maneuver, label='Maneuver Stall Distance')
+plt.plot(S_takeoff, P_takeoff/.77, label='Takeoff')
+plt.plot(S_climb1, P_climb1/.77, label='Takeoff Climb')
+plt.plot(S_climb2, P_climb2/.77, label='Balked Climb')
+plt.plot(S_cruise, P_cruise/.77, label='Cruise')
+plt.plot(S_ceiling, P_ceiling/.77, label='Ceiling')
+plt.plot(S_maneuver, P_maneuver/.77, label='Maneuver')
+plt.plot(S_stall, P_stall/.77, label='Stall')
+plt.plot(S_landing, P_landing/.77, label='Landing Distance')
+plt.plot(S_stall_maneuver, P_stall_maneuver/.77, label='Maneuver Stall Distance')
 
-plt.axis([200, 600, 150, 900])
-plt.scatter(320.5, 453.5, color='red', s=70, zorder=2)
+plt.axis([200, 600, 200, 900])
+x1 = 5
+y1 = 5
+plt.scatter(320.5, 453.5/.77, color='red', s=70, zorder=2)
+plt.text(320.5+x1, 453.5/.77, 'Ceres-100 ($S$ = 321 ft², $P_{shaft}$ = 590 hp, W = ?)')
+plt.scatter(306, 680, color='red', s=70, zorder=2)
+plt.text(306+x1, 680, 'AT-402B ($S$ = 306 ft², $P_{shaft}$ = 680 hp, W = ?)')
+plt.scatter(365, 750, color='red', s=70, zorder=2)
+plt.text(365+x1, 750, 'Thrush 510P2 ($S$ = 365 ft², $P_{shaft}$ = 750 hp, W = ?)')
+plt.scatter(294, 750, color='red', s=70, zorder=2)
+plt.text(294-2*x1, 750+5*y1, 'PAC Cresco ($S$ = 294 ft², $P_{shaft}$ = 750 hp, W = ?)')
+
+
 
 x = np.linspace(200, 600, 1000)
 
@@ -257,9 +268,9 @@ x_range3 = (x >= 320.5) & (x <= 350)
 P_land_region3 = P_land_interp(x[x_range3])  # Interpolate landing P for this S range
 plt.fill_between(x[x_range3], P_land_region3, P_climb2[x_range3], color='skyblue')
 
-plt.legend()
+plt.legend(loc=(.7, .1))
 plt.grid()
-plt.title("Power (P) vs. Wing Area (S)")
-plt.xlabel("S [ft²]")
-plt.ylabel("P [hp]")
+plt.title("Shaft Power ($P_{shaft}$) [hp] vs. Wing Area ($S$) [ft²]")
+plt.xlabel("$S$ [ft²]")
+plt.ylabel("$P_{shaft}$ [hp]")
 plt.show()
