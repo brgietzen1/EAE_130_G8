@@ -242,7 +242,7 @@ plt.axis([200, 600, 200, 900])
 x1 = 5
 y1 = 5
 plt.scatter(320.5, 453.5/.77, color='red', s=70, zorder=2)
-plt.text(320.5+x1, 453.5/.77-y1, 'Ceres-100 ($S$ = 321 ft², $P_{shaft}$ = 590 hp, W = 10547 lbs)')
+plt.text(320.5+x1, 453.5/.77-y1, 'Ceres-100 ($S$ = 321 ft², $P_{shaft}$ = 590 hp, W = 10020 lbs)')
 plt.scatter(306, 680, color='red', s=70, zorder=2)
 plt.text(306+x1, 680-y1, 'AT-402B ($S$ = 306 ft², $P_{shaft}$ = 680 hp, W = 9170 lbs)')
 plt.scatter(365, 750, color='red', s=70, zorder=2)
