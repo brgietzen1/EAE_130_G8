@@ -9,7 +9,7 @@ v_stall_TO = 120
 #stall velocity during cruise [ft/s]
 v_stall_flight = 145
 #overall maximum coefficient of lift
-cl_max = 2.5
+cl_max = 2.0
 #maximum coefficient of lift at cruise
 cl_max_cruise = 1.6
 #Takeoff distance [ft]
@@ -21,23 +21,23 @@ rho_sea = .002378
 #density at cruise [slug/ft^3]
 rho_cruise = .002048
 #maximum coefficient of lift at takeoff
-cl_max_TO = 2.23
+cl_max_TO = 1.7333
 #total landing distance [ft]
 s_L = 1500
 #obstacle clearance distance [ft]
 s_a = 500
 #maximum coefficient of lift at landing conditions
-cl_max_land = 2.5
+cl_max_land = 2.0
 #span efficiency factor
 e = 0.97
 #Aspect ratio
-AR = 8.5
+AR = 7.5
 #stall factor (in FAR 23)
 k_s = 1.3
 #drag coefficient at zero lift
 cd_0 = .02862
 #max coefficient of lift at climb
-cl_max_climb = 1.8
+cl_max_climb = 1.7333
 #cruise weight [lbm]
 W_cruise = 12214
 #takeoff weight [lbm]
@@ -155,7 +155,7 @@ plt.grid()
 x_range = (wing_loading >= 22.2) & (wing_loading <= 31.375)
 plt.fill_between(wing_loading, 0, cruise_constraint_corrected_power*.77, where=wing_loading<=23, color='skyblue')
 plt.fill_between(wing_loading[x_range], 0, climb_constraint_corrected_power2[x_range]*.77, color='skyblue')
-plt.scatter(22.8, 20.2, color='red',s=70,zorder=2)
+plt.scatter(19.7, 17.8, color='red',s=70,zorder=2)
 plt.title("Power Loading Specific (W/P$_{\mathrm{Specific}}$) vs. Wing Loading (W/S)")
 plt.xlabel("W/S [lbs/ft\u00b2]")
 plt.ylabel("W/P$_{\mathrm{Specific}}$ [lbs/hp]")

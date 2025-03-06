@@ -244,15 +244,15 @@ def solve_takeoff_weight_2(S_o, P_i, S_design, P_design, tol = 1e-6, max_iter=10
     
 ################################################# Example for solving for takeoff weight #######################################
 '''W_design = 12214.12 # lbs
-WP_design = 22.2
-WS_design = 31.25
+WP_design = 17.8
+WS_design = 19.7
 
 S_design = W_design * (WS_design)**-1
 P_design = W_design * (WP_design)**-1
 
 # Values that should come from iteration in Algorithm 4
-S_o = 306 # ft^2
-T_i = 524 # hp
+S_o = 346.8 # ft^2
+T_i = 485 # hp
 
 results = solve_takeoff_weight_2(S_o, T_i, S_design, P_design)
 
