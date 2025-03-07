@@ -120,7 +120,7 @@ def ZeroLiftDrag(S_ref, W_o, cf = 0.0070):
 
     return Cdo
 
-def LiftCoefficient(Cdo, AR = 8.5, e = 1.1):
+def LiftCoefficient(Cdo, AR = 5, e = 1.1):
     """Calculates the lift coefficient when the aircraft is in its clean configuration"""
     k = (np.pi * e* AR)**-1
     C_L = np.sqrt(Cdo/k)
@@ -243,16 +243,16 @@ def solve_takeoff_weight_2(S_o, P_i, S_design, P_design, tol = 1e-6, max_iter=10
     raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
     
 ################################################# Example for solving for takeoff weight #######################################
-'''W_design = 12214.12 # lbs
+W_design = 12214.12 # lbs
 WP_design = 17.8
-WS_design = 19.7
+WS_design = 25.4
 
 S_design = W_design * (WS_design)**-1
 P_design = W_design * (WP_design)**-1
 
 # Values that should come from iteration in Algorithm 4
-S_o = 346.8 # ft^2
-T_i = 485 # hp
+S_o = 487.2 # ft^2
+T_i = 620 # hp
 
 results = solve_takeoff_weight_2(S_o, T_i, S_design, P_design)
 
@@ -264,4 +264,4 @@ print(f"  Takeoff Weight (W_naught): {takeoff_weight:.2f} lbs")
 print(f"  Empty Weight Fraction: {empty_weight_frac:.4f}")
 print(f"  Fuel Weight Fraction: {fuel_weight_frac:.4f}")
 print(f"  Empty Weight: {empty_weight:.2f} lbs")
-print(f"  Fuel Weight: {fuel_weight:.2f} lbs")'''
+print(f"  Fuel Weight: {fuel_weight:.2f} lbs")

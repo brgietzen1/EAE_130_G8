@@ -31,7 +31,7 @@ cl_max_land = 2.0
 #span efficiency factor
 e = 0.97
 #Aspect ratio
-AR = 7.5
+AR = 5
 #stall factor (in FAR 23)
 k_s = 1.3
 #drag coefficient at zero lift
@@ -43,7 +43,7 @@ W_cruise = 12214
 #takeoff weight [lbm]
 W_takeoff = 12214
 #landing weight [lbm] !!!
-W_landing = 12214
+W_landing = 12214-4000
 #cruise speed [ft/s] potentially 267
 v_cruise = 212 
 #propeller efficiency
@@ -155,7 +155,7 @@ plt.grid()
 x_range = (wing_loading >= 22.2) & (wing_loading <= 31.375)
 plt.fill_between(wing_loading, 0, cruise_constraint_corrected_power*.77, where=wing_loading<=23, color='skyblue')
 plt.fill_between(wing_loading[x_range], 0, climb_constraint_corrected_power2[x_range]*.77, color='skyblue')
-plt.scatter(19.7, 17.8, color='red',s=70,zorder=2)
+plt.scatter(25.4, 17.8, color='red',s=70,zorder=2)
 plt.title("Power Loading Specific (W/P$_{\mathrm{Specific}}$) vs. Wing Loading (W/S)")
 plt.xlabel("W/S [lbs/ft\u00b2]")
 plt.ylabel("W/P$_{\mathrm{Specific}}$ [lbs/hp]")
