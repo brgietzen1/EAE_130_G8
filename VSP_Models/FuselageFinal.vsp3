@@ -31,14 +31,14 @@
         <CORX Value="0.000000000000000000e+00" ID="OOWSUOQLZMA"/>
         <CORY Value="0.000000000000000000e+00" ID="WWCSRWAQIRB"/>
         <CORZ Value="0.000000000000000000e+00" ID="IKSPFFZVEFJ"/>
-        <PanX Value="-8.294676780700683594e+00" ID="CSRBNIOMVFT"/>
-        <PanY Value="-3.973637104034423828e+00" ID="ZFMIUXDLGIU"/>
-        <RotationX Value="3.526438962818089351e+01" ID="CJNEDRUASVG"/>
-        <RotationY Value="-4.500000125223908043e+01" ID="DAIVMLDFOHQ"/>
-        <RotationZ Value="-6.000000166965211434e+01" ID="HQHFYOIVILS"/>
+        <PanX Value="-1.027540397644042969e+01" ID="CSRBNIOMVFT"/>
+        <PanY Value="1.657884359359741211e+00" ID="ZFMIUXDLGIU"/>
+        <RotationX Value="7.473551325674014834e+01" ID="CJNEDRUASVG"/>
+        <RotationY Value="2.584246682147341101e+00" ID="DAIVMLDFOHQ"/>
+        <RotationZ Value="1.156177112791417372e+01" ID="HQHFYOIVILS"/>
         <ViewportX Value="2.010000000000000000e+03" ID="QRGBCEDRSJI"/>
         <ViewportY Value="1.908000000000000000e+03" ID="ZBLRIYSXUPF"/>
-        <Zoom Value="7.781935390084981918e-03" ID="ARBZIBLEAFW"/>
+        <Zoom Value="1.183535251766443253e-02" ID="ARBZIBLEAFW"/>
       </AdjustView>
       <AdvLinkSettings>
         <AdvLinkDefNameContainer Value="1.000000000000000000e+00" ID="BQWLUFHPHGM"/>
@@ -688,7 +688,7 @@
         </Child_List>
       </GeomBase>
       <Material>
-        <Name>Glass Light</Name>
+        <Name>Default</Name>
       </Material>
       <Wire_Color>
         <ParmContainer>
@@ -10862,17 +10862,17 @@ void Scale(double curr_scale )
           <V_Attach_Location Value="0.000000000000000000e+00" ID="UZWLODMEOAN"/>
         </Attach>
         <BBox>
-          <X_Len Value="0.000000000000000000e+00" ID="QECHAQVUQVC"/>
-          <X_Min Value="1.856521739130434767e+01" ID="SBSNHAKVOGB"/>
-          <Y_Len Value="3.700000000000000178e+00" ID="TRQKVDPGTIY"/>
-          <Y_Min Value="-1.850000000000000089e+00" ID="KGDHQKRBDGD"/>
-          <Z_Len Value="5.266136363636363171e+00" ID="WHFQIDOAUYG"/>
-          <Z_Min Value="-2.615894268774702880e+00" ID="NIVOTMBCCIL"/>
+          <X_Len Value="4.545454545454532536e-01" ID="QECHAQVUQVC"/>
+          <X_Min Value="1.845652173913043725e+01" ID="SBSNHAKVOGB"/>
+          <Y_Len Value="3.447272727272727266e+00" ID="TRQKVDPGTIY"/>
+          <Y_Min Value="-1.723636363636363633e+00" ID="KGDHQKRBDGD"/>
+          <Z_Len Value="4.799999999999999822e+00" ID="WHFQIDOAUYG"/>
+          <Z_Min Value="-2.382826086956521205e+00" ID="NIVOTMBCCIL"/>
         </BBox>
         <Design>
-          <A_Radius Value="0.000000000000000000e+00" ID="HPKIDENCPYA"/>
-          <B_Radius Value="1.850000000000000089e+00" ID="XOACPICTQUF"/>
-          <C_Radius Value="2.633068181818181586e+00" ID="RGARSIAJSMV"/>
+          <A_Radius Value="2.272727272727272652e-01" ID="HPKIDENCPYA"/>
+          <B_Radius Value="1.723636363636363633e+00" ID="XOACPICTQUF"/>
+          <C_Radius Value="2.399999999999999911e+00" ID="RGARSIAJSMV"/>
         </Design>
         <EndCap>
           <CapUMaxLength Value="1.000000000000000000e+00" ID="BSQLBXAOQOG"/>
@@ -10919,7 +10919,7 @@ void Scale(double curr_scale )
           <TeTwRatio Value="1.000000000000000000e+00" ID="NRBSGIRLBZE"/>
         </ParasiteDragProps>
         <Shape>
-          <Tess_U Value="2.000000000000000000e+00" ID="XPCUMDHBSIG"/>
+          <Tess_U Value="3.200000000000000000e+01" ID="XPCUMDHBSIG"/>
           <Tess_W Value="5.300000000000000000e+01" ID="GZETKMAMAFW"/>
           <Wake Value="0.000000000000000000e+00" ID="HSZOMGHGZJQ"/>
         </Shape>
@@ -10939,8 +10939,8 @@ void Scale(double curr_scale )
           <Last_Scale Value="1.000000000000000000e+00" ID="OHBHNMLWQAL"/>
           <Origin Value="0.000000000000000000e+00" ID="GHCRNWDQZPZ"/>
           <Scale Value="1.000000000000000000e+00" ID="VGSBAZPPCBS"/>
-          <X_Location Value="1.856521739130434767e+01" ID="GFYSSWEMUJY"/>
-          <X_Rel_Location Value="1.856521739130434767e+01" ID="PQYRCEDTAUU"/>
+          <X_Location Value="1.845652173913043725e+01" ID="GFYSSWEMUJY"/>
+          <X_Rel_Location Value="1.845652173913043725e+01" ID="PQYRCEDTAUU"/>
           <X_Rel_Rotation Value="0.000000000000000000e+00" ID="TVMXEMQYFMF"/>
           <X_Rotation Value="0.000000000000000000e+00" ID="ZMWPTHRJEVG"/>
           <Y_Location Value="0.000000000000000000e+00" ID="KBMSBFIJSWC"/>
@@ -17610,7 +17610,7 @@ void Scale(double curr_scale )
         <XGTClipFlag Value="0.000000000000000000e+00" ID="JYCTCPRVARG"/>
         <XLTClip Value="-1.000000000000000000e+00" ID="BRUTIBBIJKS"/>
         <XLTClipFlag Value="0.000000000000000000e+00" ID="ZTWSFWOMQDC"/>
-        <YGTClip Value="0.000000000000000000e+00" ID="AVSUHWFCOIV"/>
+        <YGTClip Value="1.100000000000000089e+00" ID="AVSUHWFCOIV"/>
         <YGTClipFlag Value="0.000000000000000000e+00" ID="CYDYDBNHGBP"/>
         <YLTClip Value="-6.296296296296297612e-01" ID="VMHUQSVNMWT"/>
         <YLTClipFlag Value="0.000000000000000000e+00" ID="PZOLNIKCFEM"/>
