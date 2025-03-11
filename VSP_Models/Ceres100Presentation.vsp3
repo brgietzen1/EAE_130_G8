@@ -31,14 +31,14 @@
         <CORX Value="0.000000000000000000e+00" ID="OOWSUOQLZMA"/>
         <CORY Value="0.000000000000000000e+00" ID="WWCSRWAQIRB"/>
         <CORZ Value="0.000000000000000000e+00" ID="IKSPFFZVEFJ"/>
-        <PanX Value="6.355886459350585938e+00" ID="CSRBNIOMVFT"/>
-        <PanY Value="-4.008395195007324219e+00" ID="ZFMIUXDLGIU"/>
-        <RotationX Value="5.986248947109224616e+01" ID="CJNEDRUASVG"/>
-        <RotationY Value="-5.130066293137367239e+01" ID="DAIVMLDFOHQ"/>
-        <RotationZ Value="-4.662724259557584361e+01" ID="HQHFYOIVILS"/>
+        <PanX Value="-1.597436046600341797e+01" ID="CSRBNIOMVFT"/>
+        <PanY Value="-8.659070014953613281e+00" ID="ZFMIUXDLGIU"/>
+        <RotationX Value="3.526438962818089351e+01" ID="CJNEDRUASVG"/>
+        <RotationY Value="-4.500000125223908043e+01" ID="DAIVMLDFOHQ"/>
+        <RotationZ Value="-6.000000166965211434e+01" ID="HQHFYOIVILS"/>
         <ViewportX Value="2.010000000000000000e+03" ID="QRGBCEDRSJI"/>
-        <ViewportY Value="1.904000000000000000e+03" ID="ZBLRIYSXUPF"/>
-        <Zoom Value="2.380504272878170013e-02" ID="ARBZIBLEAFW"/>
+        <ViewportY Value="1.902000000000000000e+03" ID="ZBLRIYSXUPF"/>
+        <Zoom Value="2.380501106381416321e-02" ID="ARBZIBLEAFW"/>
       </AdjustView>
       <AdvLinkSettings>
         <AdvLinkDefNameContainer Value="1.000000000000000000e+00" ID="BQWLUFHPHGM"/>
@@ -7052,8 +7052,8 @@ void Scale(double curr_scale )
                 <TeTwRatio Value="-1.000000000000000000e+00" ID="HGZVTRGHIMH"/>
               </ParasiteDragProps>
               <SS_Ellipse>
-                <Center_U Value="6.813725490196078649e-01" ID="ORKAMAWYQBZ"/>
-                <Center_W Value="4.656862745098039325e-01" ID="NNARBJASECT"/>
+                <Center_U Value="6.911760000000000126e-01" ID="ORKAMAWYQBZ"/>
+                <Center_W Value="4.362745098039215730e-01" ID="NNARBJASECT"/>
                 <Tess_Num Value="6.700000000000000000e+01" ID="YUJMGIUKVGM"/>
                 <Test_Type Value="0.000000000000000000e+00" ID="HAUHFJYQZJZ"/>
                 <Theta Value="0.000000000000000000e+00" ID="PFTNBWSBMST"/>
@@ -7095,12 +7095,12 @@ void Scale(double curr_scale )
                 <TeTwRatio Value="-1.000000000000000000e+00" ID="MAPXDSPLUGD"/>
               </ParasiteDragProps>
               <SS_Ellipse>
-                <Center_U Value="6.813725490196078649e-01" ID="NBLCOGYYJHY"/>
-                <Center_W Value="3.921568627450980338e-02" ID="KJZCENWMLKF"/>
-                <Tess_Num Value="6.000000000000000000e+01" ID="DYREPRPWNEZ"/>
+                <Center_U Value="6.911764705882352811e-01" ID="NBLCOGYYJHY"/>
+                <Center_W Value="6.372549019607842702e-02" ID="KJZCENWMLKF"/>
+                <Tess_Num Value="6.700000000000000000e+01" ID="DYREPRPWNEZ"/>
                 <Test_Type Value="0.000000000000000000e+00" ID="BAYUUBKZSWD"/>
                 <Theta Value="0.000000000000000000e+00" ID="OMBNLYFLUHX"/>
-                <U_Length Value="4.902000000000000107e-02" ID="IWZKUUEEWIV"/>
+                <U_Length Value="9.313725490196078649e-02" ID="IWZKUUEEWIV"/>
                 <W_Length Value="1.274510000000000087e-01" ID="LVDCDDQSKBA"/>
               </SS_Ellipse>
               <SubSurface>
@@ -8935,7 +8935,7 @@ void Scale(double curr_scale )
           <Age Value="2.989999999999999858e+01" ID="LBEFXZBOHSQ"/>
           <AutoDensity Value="1.000000000000000000e+00" ID="JSKJZHANHJE"/>
           <BMI Value="1.968918026122408449e+01" ID="DKHPYNAHHSF"/>
-          <BMI_pct Value="5.280657532590261188e-02" ID="MOIXBMLITEL"/>
+          <BMI_pct Value="5.280657532589057984e-02" ID="MOIXBMLITEL"/>
           <GenderFlag Value="1.000000000000000000e+00" ID="IMBMTQLVUHI"/>
           <LenUnit Value="4.000000000000000000e+00" ID="FOXICXNHYXI"/>
           <Mass Value="9.766622747154846707e+01" ID="MKHUGDPHILK"/>
@@ -27795,7 +27795,7 @@ void Scale(double curr_scale )
         <Num_of_Tex>0</Num_of_Tex>
       </Textures>
       <Geom>
-        <Set_List>1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
+        <Set_List>1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, </Set_List>
         <SubSurfaces/>
         <FeaStructures/>
       </Geom>
