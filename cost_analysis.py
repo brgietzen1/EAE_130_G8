@@ -1,3 +1,5 @@
+import numpy as np
+
 # (A) RDT&E COSTS
 # Parameters Variables
 ######################################################################## FROM RFP 
@@ -46,7 +48,7 @@ K = 2.75
 #Total takeoff shaft horsepower (all engines added up)
 SHP_TO = 1295
 #Mission time (fuel weight / specfic fuel consumption / shaft horsepower)
-mission_time = fuel_weight / .6 / 1295
+mission_time = 642.34 / .6 / 1295
 #Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement - mission time plus a half hour buffer)
 tb = .5 + mission_time
 #Hours per year used
@@ -58,7 +60,7 @@ rho_f = 6.7
 #Price of electricity in $/kWh (divide by 1000 for $/Wh)
 P_elec = 0.43 / 1000
 #Specific energy of battery in Wh/kg (divide by 2.205 for Wh/lb) (0 is no batteries)
-e_elec = e_b / 2.205
+#e_elec = e_b / 2.205
 #Maintenance labor cost in USD/hr for the year of interest
 RL = 155
 # no. of hours between engine overhauls (usually between 3000 and 5000)
@@ -75,15 +77,15 @@ motor_hp = 1000
 battery_kWh = 60
 ########################################################################### FROM WEIGHT CALC
 #empty weight (lb)
-W_e = empty_weight
+W_e = 6078.31
 #Fuel Weight (lb)
-W_f = fuel_weight
+W_f = 642.34
 #Battery weight (lb)
-W_b = battery_weight
+#W_b = battery_weight
 #Airframe weight (Empty weight minus engine weight, battery weight, and motor weight)
-W_A = empty_weight - battery_weight - SHP_TO ** (0.9306) * 10 **(-0.1205)
+W_A = W_e  - SHP_TO ** (0.9306) * 10 **(-0.1205)
 #Max Takeoff Weight (lb)
-MTOW = takeoff_weight
+MTOW = 10911
 
 ####################################################################################
 # Define the functions for various cost calculations based on the provided formulas
