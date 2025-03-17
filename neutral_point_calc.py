@@ -15,7 +15,7 @@ AR_w = 10
 #constance from slides
 eta = .97
 #wing sweep
-delta = 0
+delta = np.deg2rad(5)
 #mach number
 M = 180.446/1116.133
 
@@ -23,15 +23,15 @@ M = 180.446/1116.133
 #tail aspect ratio
 AR_h = 10
 #tail sweep
-delta_h = 0
+delta_h = np.deg2rad(-5)
 
 #fuselage pitching moment
 #constant depending on wing 1/4 chord position
 K_f = .344
 #fuselage width
-w_f = 0
+w_f = 4.4
 #fuselage length
-L_f = 0
+L_f = 35.5
 
 C_l_w = 2*np.pi*AR_w/(2 + np.sqrt((AR_w/eta)**2 * (1+np.tan(delta**2 - M**2)) + 4))
 
