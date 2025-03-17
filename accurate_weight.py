@@ -28,16 +28,19 @@ def engine_weight(P_TO, N_e, N_p, N_bl, D_p, k_p=.55):
     return (engine_weight_USAF + engine_weight_ces)/2
 
 def fuel_system_weight(W_F, K_fsp, fracfuel, N_t, N_e):
-    W_fs = 2.49*((W_F/K_fsp)**(.6)*(1/(1+fracfuel))**(.3)*(N_t)**(.2)*N_e**(.13))**(1.21)
-    return W_fs
+    W_fs_USAF = 2.49*((W_F/K_fsp)**(.6)*(1/(1+fracfuel))**(.3)*(N_t)**(.2)*N_e**(.13))**(1.21)
+    W_fs_tor = 2*(W_F/5.87)**.667
+    return (W_fs_USAF + W_fs_tor)/2
 
 def flight_control_sys_weight(W_TO):
-    W_fc = 1.08*(W_TO)**(.7)
-    return W_fc
+    W_fc_USAF = 1.066*(W_TO)**(.626)
+    W_fc_tor = .23*W_TO**(2/3)
+    return (W_fc_USAF + W_fc_tor)/2
 
-def electrical_system_weight(W_fs, W_iae):
-    W_els = 426*((W_fs + W_iae)/1000)**(.51)
-    return W_els
+def electrical_system_weight(W_fs, W_iae, W_TO):
+    W_els_USAF = 426*((W_fs + W_iae)/1000)**(.51)
+    W_els_ces = .0268*(W_TO)
+    return (W_els_USAF + W_els_ces)/2
 
 def avionics_weight(N_pax):
     W_iae = 33*N_pax
@@ -138,7 +141,7 @@ def total_weight_calc():
         W_fs = fuel_system_weight(W_F, K_fsp, fracfuel, N_t, N_e)
         W_fc = flight_control_sys_weight(W_TO)
         W_iae = avionics_weight(N_pax)
-        W_els = electrical_system_weight(W_fs, W_iae)
+        W_els = electrical_system_weight(W_fs, W_iae, W_TO)
         W_api = AC_weight(W_TO, N_pax, W_iae, M_D)
         W_APU = APU_weight(W_TO)
         W_fur = furnishings_weight(N_pax, W_TO)
