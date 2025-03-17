@@ -63,11 +63,12 @@ def total_weight_calc():
     #passenger weight
     W_pax = 190
     #landing gear weight
-    W_lg = 384 + 53
+    W_lgm = 384
+    W_lgf = 53
     #boom weight
     W_boom = 150
     #mission fuel weight [lbs]
-    W_F = 642.34
+    W_F = 693.36
     #wing aspect ratio
     A = 10
     #wing quarter-chord sweep angle
@@ -142,15 +143,17 @@ def total_weight_calc():
         W_APU = APU_weight(W_TO)
         W_fur = furnishings_weight(N_pax, W_TO)
         W_winglets = 1/12.7*2*W_w
+        W_hopper = 64.125*1.6
+        W_tfo = 44
 
-        W_TO_new = W_payload + W_F + W_pax + W_boom + 2*W_w + W_em + W_fus + W_lg + W_eng + W_fs + W_fc + W_iae + W_els + W_api + W_APU + W_fur + W_winglets
+        W_TO_new = W_payload + W_F + W_pax + W_boom + 2*W_w + W_em + W_fus + W_lgm + W_lgf + W_eng + W_fs + W_fc + W_iae + W_els + W_api + W_APU + W_fur + W_winglets + W_hopper + W_tfo
         W_TO = W_TO_new
         iter = iter + 1
 
-    return iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lg, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_TO_new
+    return iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lgm, W_lgf, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_hopper, W_tfo, W_boom, W_TO_new
     
     
-iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lg, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_TO_new = total_weight_calc()
+iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lgm, W_lgf, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_hopper, W_tfo, W_boom, W_TO_new = total_weight_calc()
 print("Iterations: ", iter)
 print("Payload: ", W_payload)
 print("Fuel: ", W_F)
@@ -160,7 +163,7 @@ print("Wings: ", 2*W_w)
 print("Winglets: ", W_winglets)
 print("Empennage: ", W_em)
 print("Fuselage: ", W_fus)
-print("Landing Gear: ", W_lg)
+print("Landing Gear: ", W_lgm, W_lgf)
 print("Engine: ", W_eng)
 print("Fuel Systems: ", W_fs)
 print("Flight Control Systems: ", W_fc)
@@ -169,6 +172,16 @@ print("Electrical Systems: ", W_els)
 print("AC, Pressure, Anti-Ice Systems: ", W_api)
 print("APU: ", W_APU)
 print("Furnishings: ", W_fur)
+print("Hopper: ", W_hopper)
+print("Trapped Fuel and Oil: ", W_tfo)
+print("Boom: ", W_boom)
 print("Gross Takeoff Weight: ", W_TO_new)
 
 
+
+def cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new):
+    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 26.171*W_fc + 3.434*W_els + 4.696*W_iae + 10.477*W_api + 28.931*W_APU + 6.717*W_fur)/W_TO_new
+    return x_cg
+
+x_cg = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new)
+print("Center of Gravity: ", x_cg)
