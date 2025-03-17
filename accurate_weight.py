@@ -188,3 +188,16 @@ def cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_
 
 x_cg = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new)
 print("Center of Gravity: ", x_cg)
+
+x_cg_empty = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, 0, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new-W_F-W_payload)
+print("Empty Center of Gravity: ", x_cg_empty)
+
+def cg_location_shortened(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new):
+    x_cg_short = (12.79*W_w + 28.19*W_w + 25.814*W_em + 19.642*W_winglets + 10.5*W_fus + 26.195*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 26.171*W_fc + 3.434*W_els + 4.696*W_iae + 10.477*W_api + 28.931*W_APU + 6.717*W_fur)/W_TO_new
+    return x_cg_short
+
+x_cg_short = cg_location_shortened(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new)
+print("Shortened Center of Gravity: ", x_cg_short)
+
+x_cg_empty_short = cg_location_shortened(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, 0, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new-W_F-W_payload)
+print("Shortened Empty Center of Gravity: ", x_cg_empty_short)
