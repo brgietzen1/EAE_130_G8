@@ -1,24 +1,31 @@
 import numpy as np
 
 def wing_weight(W_TO, n_ult, A, del_quar, S, lam, tcm, V_H):
-    wing_weight = 96.948*((W_TO*n_ult/(10**5))**(.65)*(A/np.cos(del_quar))**(.57)*(S/100)**(.61)*((1+lam)/2*(tcm))**(.36)*(1+V_H/500)**(.5))**(.993)
-    return wing_weight
+    wing_weight_USAF = 96.948*((W_TO*n_ult/(10**5))**(.65)*(A/np.cos(del_quar))**(.57)*(S/100)**(.61)*((1+lam)/2*(tcm))**(.36)*(1+V_H/500)**(.5))**(.993)
+    wing_weight_ces = .04674*(W_TO)**(.397)*(S**.36)*n_ult**.397*A**1.712
+    return (wing_weight_USAF + wing_weight_ces) / 2
 
-def empennage_weight(W_TO, n_ult, S_v, b_v, trv):
-    W_V = 98.5*((W_TO*n_ult/(10**5))**(.87)*(S_v/100)**(1.2)*.289*(b_v/trv)**(.5))**(.458)
-    empennage_weight = W_V
+def empennage_weight(W_TO, n_ult, S_v, b_v, trv, A_v, del_quar_v):
+    W_V_USAF = 98.5*((W_TO*n_ult/(10**5))**(.87)*(S_v/100)**(1.2)*.289*(b_v/trv)**(.5))**(.458)
+    W_V_tor = .04*(n_ult*S_v**2)**.75
+    empennage_weight = (W_V_USAF + W_V_tor )/2
     return empennage_weight
 
-def fuselage_weight(W_TO, n_ult, l_f, w_f, h_f, V_C):
-    fuselage_weight = 200*((W_TO*n_ult/(10**5))**(.286)*(l_f/10)**(.857)*((w_f+h_f)/10)*(V_C/100)**(.338))**(1.1)
-    return fuselage_weight
+def fuselage_weight(W_TO, n_ult, l_f, w_f, h_f, V_C, N_pax):
+    fuselage_weight_USAF = 200*((W_TO*n_ult/(10**5))**(.286)*(l_f/10)**(.857)*((w_f+h_f)/10)*(V_C/100)**(.338))**(1.1)
+    fuselage_weight_ces = .04682*W_TO**.692*N_pax*.374*l_f**.59/100
+    return (fuselage_weight_USAF + fuselage_weight_ces) / 2
 
 
-def engine_weight(P_TO, N_e, k_p=.55):
-    #includes air induction, propeller, propulsion system
+def engine_weight(P_TO, N_e, N_p, N_bl, D_p, k_p=.55):
+    #includes nacelle, air induction, propeller, propulsion system
     W_eng = k_p*P_TO
-    engine_weight = 2.575*W_eng**(.992)*N_e
-    return engine_weight
+    engine_weight_USAF = 2.575*W_eng**(.992)*N_e
+    W_n = .37*P_TO 
+    W_prop = 31.92*N_p*N_bl**.391*((D_p)*P_TO/N_e/1000)**.782
+    W_p = 65
+    engine_weight_ces = W_eng + W_n + W_prop + W_p
+    return (engine_weight_USAF + engine_weight_ces)/2
 
 def fuel_system_weight(W_F, K_fsp, fracfuel, N_t, N_e):
     W_fs = 2.49*((W_F/K_fsp)**(.6)*(1/(1+fracfuel))**(.3)*(N_t)**(.2)*N_e**(.13))**(1.21)
@@ -79,6 +86,10 @@ def total_weight_calc():
     b_v = 8.9
     #vertical tail maximum root thickness [ft]
     trv = 0.16
+    #vertical tail aspect ratio
+    A_v = 1.88
+    #vertical tail quarter chord sweep angle
+    del_quar_v = np.deg2rad(15)
     #fuselage length [ft]
     l_f = 35.5
     #max fuselage width [ft]
@@ -91,6 +102,12 @@ def total_weight_calc():
     P_TO = 620
     #number of engine
     N_e = 1
+    #number of propeller
+    N_p = 1
+    #number of propeller blades
+    N_bl = 5
+    #diameter of propeller
+    D_p = 9
     #constant
     K_fsp = 5.87
     #fuel fraction of tanks which are integral
@@ -102,7 +119,7 @@ def total_weight_calc():
     #design dive mach number
     M_D = .438
     tolerance = .05
-    iter = 1
+    iter = 0
     W_TO_new = 0
     W_TO_old = W_TO
     while abs(W_TO_new-W_TO_old)/W_TO_old >= .05:
@@ -114,9 +131,9 @@ def total_weight_calc():
         #design landing weight [lbs]
         W_L = W_TO-W_payload
         W_w = wing_weight(W_TO, n_ult, A, del_quar, S, lam, tcm, V_H)
-        W_em = empennage_weight(W_TO, n_ult, S_v, b_v, trv)
-        W_fus = fuselage_weight(W_TO, n_ult, l_f, w_f, h_f, V_C)
-        W_eng = engine_weight(P_TO, N_e, k_p=.45)
+        W_em = empennage_weight(W_TO, n_ult, S_v, b_v, trv, A_v, del_quar_v)
+        W_fus = fuselage_weight(W_TO, n_ult, l_f, w_f, h_f, V_C, N_pax)
+        W_eng = engine_weight(P_TO, N_e, N_p, N_bl, D_p, k_p=.55)
         W_fs = fuel_system_weight(W_F, K_fsp, fracfuel, N_t, N_e)
         W_fc = flight_control_sys_weight(W_TO)
         W_iae = avionics_weight(N_pax)
