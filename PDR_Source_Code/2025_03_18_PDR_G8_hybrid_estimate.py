@@ -1,6 +1,6 @@
 import numpy as np
 
-# Weight Estimate Calculator for Fueled Propeller Aircraft
+# Weight Estimate Calculator for Hybrid Propeller Aircraft
 
 def RaymerMethod(W_naught,A,C):
     
