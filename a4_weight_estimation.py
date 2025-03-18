@@ -29,6 +29,7 @@ def CruiseFraction(R, c, eta, lift_to_drag):
         returns: weight fraction of cruise segment"""
     
     weight_frac = np.exp( (-R*SfcUnitConverter(c)) / (eta * lift_to_drag))
+    #print("cruise",weight_frac)
 
     return weight_frac
 
@@ -46,6 +47,7 @@ def LoiterFraction(E, V, c, eta, lift_to_drag):
     E_seconds = E*3600
 
     weight_frac = np.exp( (-E_seconds*V*SfcUnitConverter(c)) / (eta*lift_to_drag))
+    #print("loiter",weight_frac)
 
     return weight_frac
 
@@ -88,6 +90,7 @@ def TaxiFraction(P, W, prop_eta = 0.77, c_SL = 0.60):
     
     P_shaft = P/prop_eta
     frac = 1 - (c_SL * P_shaft * 0.05 * 15 / (W * 60))
+    #print("taxi",frac)
 
     return frac
 
@@ -100,6 +103,7 @@ def TakeoffFraction(P, W, prop_eta = 0.77, c_SL = 0.60):
     
     P_shaft = P/prop_eta
     frac = 1 - (c_SL * P_shaft / (W * 60))
+    #print("takeoff",frac)
 
     return frac
 
@@ -251,7 +255,7 @@ S_design = W_design * (WS_design)**-1
 P_design = W_design * (WP_design)**-1
 
 # Values that should come from iteration in Algorithm 4
-S_o = 487.2 # ft^2
+S_o = 387.2 # ft^2
 T_i = 620 # hp
 
 results = solve_takeoff_weight_2(S_o, T_i, S_design, P_design)
