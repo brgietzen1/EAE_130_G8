@@ -48,7 +48,7 @@ W_landing = 12214-4000
 v_cruise = 212 
 #propeller efficiency
 eta_p = 0.9
-#dynamic pressure at cruise [lbf/ft^2] slugs/ft^3 * ft^2/s^2 = slugs/ft/s^2 = lbf/s^2/ft^2
+#dynamic pressure at cruise [lbf/ft^2] slugs/ft^3 * ft^2/s^2 = slugs/ft/s^2 = lbf/ft^2
 q_cruise = (1/2*rho_cruise * v_cruise**2)
 #power at cruise [hp]
 P_cruise = 787.5

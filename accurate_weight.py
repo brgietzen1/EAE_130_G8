@@ -191,7 +191,7 @@ print("Gross Takeoff Weight: ", W_TO_new)
 
 
 def cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new):
-    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 15.85*W_hopper + 15.86*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 2.485*W_APU + 6.717*W_fur + .66*0)/(W_TO_new + 0)
+    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 2.485*W_APU + 6.717*W_fur + .66*0)/(W_TO_new + 0)
     return x_cg
 
 x_cg = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new)

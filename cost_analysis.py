@@ -46,7 +46,7 @@ AF = 0.8
 #Route Factor -> Meta
 K = 2.75
 #Total takeoff shaft horsepower (all engines added up)
-SHP_TO = 1295
+SHP_TO = 620
 #Mission time (fuel weight / specfic fuel consumption / shaft horsepower)
 mission_time = 642.34 / .6 / 1295
 #Block time in hrs (Total time aircraft is in use for mission - from wheel block removal to wheel block placement - mission time plus a half hour buffer)
@@ -77,15 +77,15 @@ motor_hp = 1000
 battery_kWh = 60
 ########################################################################### FROM WEIGHT CALC
 #empty weight (lb)
-W_e = 6078.31
+W_e = 3981
 #Fuel Weight (lb)
-W_f = 642.34
+W_f = 693
 #Battery weight (lb)
 #W_b = battery_weight
 #Airframe weight (Empty weight minus engine weight, battery weight, and motor weight)
 W_A = W_e  - SHP_TO ** (0.9306) * 10 **(-0.1205)
 #Max Takeoff Weight (lb)
-MTOW = 10911
+MTOW = 8864
 
 ####################################################################################
 # Define the functions for various cost calculations based on the provided formulas
