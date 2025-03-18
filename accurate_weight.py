@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 def wing_weight(W_TO, n_ult, A, del_quar, S, lam, tcm, V_H, W_F, q):
     wing_weight_USAF = 96.948*((W_TO*n_ult/(10**5))**(.65)*(A/np.cos(del_quar))**(.57)*(S/100)**(.61)*((1+lam)/2*(tcm))**(.36)*(1+V_H/500)**(.5))**(.993)
@@ -190,22 +192,66 @@ print("Gross Takeoff Weight: ", W_TO_new)
 
 
 
-def cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new):
-    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 2.485*W_APU + 6.717*W_fur + .66*0)/(W_TO_new + 0)
+def cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur):
+    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 2.485*W_APU + 6.717*W_fur)/( 2*W_w + W_em + W_winglets + W_fus + W_eng + W_lgf + W_lgm + W_fs + W_F + W_pax + W_hopper + W_payload + W_boom + W_fc + W_els + W_iae + W_api + W_APU + W_fur)
     return x_cg
 
-x_cg = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new)
+def cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur):
+    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 2.155*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 2.485*W_APU + 6.717*W_fur)/( 2*W_w + W_em + W_winglets + W_fus + W_eng + W_lgf + W_lgm + W_fs + W_F + W_pax + W_hopper + W_payload + W_boom + W_fc + W_els + W_iae + W_api + W_APU + W_fur)
+    return x_cg
+
+x_cg = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
 print("Center of Gravity: ", x_cg)
 
-x_cg_empty = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, 0, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new-W_F-W_payload)
+x_cg_empty = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, 0, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
 print("Empty Center of Gravity: ", x_cg_empty)
 
-def cg_location_shortened(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new):
-    x_cg_short = (12.79*W_w + 28.19*W_w + 25.814*W_em + 19.642*W_winglets + 10.5*W_fus + 26.195*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 26.171*W_fc + 3.434*W_els + 4.696*W_iae + 10.477*W_api + 28.931*W_APU + 6.717*W_fur)/W_TO_new
-    return x_cg_short
 
-x_cg_short = cg_location_shortened(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new)
-print("Shortened Center of Gravity: ", x_cg_short)
+w1 = 6.039
+w2 = 8.052
+w3 = 51.658
+w4 = 344.792
+w5 = 49.752
+w6 = 119.864
+cg_gear_down_TO = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_takeoff_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_cruise_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_spray_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_cruise_back_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4, W_pax, W_hopper, W_payload-4000, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_loiter_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5, W_pax, W_hopper, W_payload-4000, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_land_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5-w6, W_pax, W_hopper, W_payload-4000, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_gear_down_land = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5-w6, W_pax, W_hopper-4000, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
 
-x_cg_empty_short = cg_location_shortened(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, 0, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_TO_new-W_F-W_payload)
-print("Shortened Empty Center of Gravity: ", x_cg_empty_short)
+cg_envelope = [cg_gear_down_TO, cg_takeoff_start, cg_cruise_start, cg_spray_start, cg_cruise_back_start, cg_loiter_start, cg_land_start, cg_gear_down_land]
+print(cg_envelope)
+
+cg_location_envelope = np.zeros_like(cg_envelope)
+for i in range(len(cg_envelope)):
+    cg_location_envelope[i] = cg_envelope[i]/4.45
+print(cg_location_envelope)
+cg_weights = [W_TO_new-w1, W_TO_new-w1, W_TO_new-w1-w2, W_TO_new-w1-w2-w3, W_TO_new-w1-w2-w3-w4-4000, W_TO_new-w1-w2-w3-w4-w5-4000, W_TO_new-w1-w2-w3-w4-w5-w6-4000, W_TO_new-w1-w2-w3-w4-w5-w6-4000]
+print(cg_weights)
+
+plt.figure()
+plt.plot(cg_location_envelope, cg_weights)
+
+plt.axvline(x=16.9/4.45, linestyle='--')
+plt.axvline(x=18.45/4.45, linestyle='--')
+
+plt.scatter(cg_location_envelope[0], cg_weights[0], color='black', s=10, zorder=2)
+plt.scatter(cg_location_envelope[1], cg_weights[1], color='black', s=10, zorder=2)
+plt.scatter(cg_location_envelope[2], cg_weights[2], color='black', s=10, zorder=2)
+plt.scatter(cg_location_envelope[3], cg_weights[3], color='black', s=10, zorder=2)
+plt.scatter(cg_location_envelope[4], cg_weights[4], color='black', s=10, zorder=2)
+plt.scatter(cg_location_envelope[5], cg_weights[5], color='black', s=10, zorder=2)
+plt.scatter(cg_location_envelope[6], cg_weights[6], color='black', s=10, zorder=2)
+plt.scatter(cg_location_envelope[7], cg_weights[7], color='black', s=10, zorder=2)
+
+plt.title("C.G. Location for Full Length Mission")
+plt.xlabel("C.G. Location as a fraction of MAC $(\\frac{x_{c.g.}}{\\bar{c}})$")
+plt.ylabel("Gross Weight ($W$) [lbs]")
+
+
+
+plt.show()
+
