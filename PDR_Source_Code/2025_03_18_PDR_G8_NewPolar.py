@@ -22,32 +22,28 @@ b = 44  # ft
 c = 1.0447  # Historical Value from Roskam
 d = 0.5326  # Historical Value from Roskam
 W_o = 8864
-c_f = 0.0070
+c_f = 0.0150 # Same as Cessna Ag-Husky
 S = 387.2  # ft^2
 e_ref = [0.825, 0.775, 0.725]  # Clean, Takeoff, Landing
 delta_Cd = [0, 0.015, 0.065, 0.020]  # Clean, Takeoff flaps, Landing Flaps, Landing Gear
 
-Cdo = CalculateZeroLiftDrag(c, d, c_f, W_o, S)
+Cdo_base = CalculateZeroLiftDrag(c, d, c_f, W_o, S) # does not include gear
 e_box = [BoxWingSpanEfficiency(e, h, b) for e in e_ref]
 
 # CL max and min values for each configuration
 CL_limits = {
-    "Clean": (-1.6, 1.6),
-    "Takeoff Flaps + Gear Up": (-1.73, 1.73),
-    "Takeoff Flaps + Gear Down": (-1.73, 1.73),
-    "Landing Flaps + Gear Up": (-2.0, 2.0),
-    "Landing Flaps + Gear Down": (-2.0, 2.0)
+    "No Flaps": (-1.6, 1.6),
+    "Takeoff Flaps": (-1.73, 1.73),
+    "Landing Flaps": (-2.0, 2.0),
 }
 
 # Configurations
 takeoff_e = e_box[1]
 landing_e = e_box[2]
 configurations = {
-    "Clean": (e_box[0], Cdo + delta_Cd[0], CL_limits["Clean"]),
-    "Takeoff Flaps + Gear Up": (takeoff_e, Cdo + delta_Cd[1], CL_limits["Takeoff Flaps + Gear Up"]),
-    "Takeoff Flaps + Gear Down": (takeoff_e, Cdo + delta_Cd[1] + delta_Cd[3], CL_limits["Takeoff Flaps + Gear Down"]),
-    "Landing Flaps + Gear Up": (landing_e, Cdo + delta_Cd[2], CL_limits["Landing Flaps + Gear Up"]),
-    "Landing Flaps + Gear Down": (landing_e, Cdo + delta_Cd[2] + delta_Cd[3], CL_limits["Landing Flaps + Gear Down"])
+    "No Flaps": (e_box[0], Cdo_base + delta_Cd[0] + delta_Cd[3], CL_limits["No Flaps"]),
+    "Takeoff Flaps": (takeoff_e, Cdo_base + delta_Cd[1] + delta_Cd[3], CL_limits["Takeoff Flaps"]),
+    "Landing Flaps": (landing_e, Cdo_base + delta_Cd[2] + delta_Cd[3], CL_limits["Landing Flaps"])
 }
 
 # Print span efficiency and zero-lift drag coefficient for each configuration
