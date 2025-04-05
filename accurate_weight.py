@@ -21,15 +21,15 @@ def fuselage_weight(W_TO, n_ult, l_f, w_f, h_f, V_C, N_pax, S_f, l_t, q):
     return (fuselage_weight_USAF + fuselage_weight_ces + fuselage_weight_raymer) / 3
 
 
-def engine_weight(P_TO, N_e, N_p, N_bl, D_p, k_p=.55):
+def engine_weight(W_TO, P_TO, N_e, N_p, N_bl, D_p, k_p=.55):
     #includes nacelle, air induction, propeller, propulsion system
     W_eng = k_p*P_TO
-    engine_weight_USAF = 2.575*W_eng**(.992)*N_e
-    W_n = .37*P_TO 
+    W_n = .24*W_TO 
     W_prop = 31.92*N_p*N_bl**.391*((D_p)*P_TO/N_e/1000)**.782
     W_p = 65
+    engine_weight_USAF = 2.575*W_eng**(.992)*N_e
     engine_weight_ces = W_eng + W_n + W_prop + W_p
-    return (engine_weight_USAF + engine_weight_ces)/2
+    return (engine_weight_USAF)
 
 def fuel_system_weight(W_F, K_fsp, fracfuel, N_t, N_e):
     W_fs_USAF = 2.49*((W_F/K_fsp)**(.6)*(1/(1+fracfuel))**(.3)*(N_t)**(.2)*N_e**(.13))**(1.21)
@@ -66,7 +66,7 @@ def furnishings_weight(N_pax, W_TO):
 def total_weight_calc():
     W_TO = 10910
     #payload weight
-    W_payload = 4000
+    W_payload = 2000
     #passenger weight
     W_pax = 190
     #landing gear weight
@@ -74,6 +74,12 @@ def total_weight_calc():
     W_lgf = 67
     #boom weight
     W_boom = 150
+    #Generator weight
+    W_gen = 187
+    #Motor weight
+    W_motor = 110
+    #Structural Reinforcement
+    W_rein = 250
     #mission fuel weight [lbs]
     W_F = 693.36
     #wing aspect ratio
@@ -83,7 +89,7 @@ def total_weight_calc():
     #wing area [ft^2]
     S = 193.6
     #cruise dynamic pressure
-    q=(1/2*.002048 * 197.5**2)
+    q=(1/2*.001756 * 200**2)
     #wing taper ratio
     lam = 0.7
     #maximum wing thickness ratio
@@ -113,15 +119,15 @@ def total_weight_calc():
     #design cruise speed [KEAS]
     V_C = 128
     #engine takeoff power [shp]
-    P_TO = 620
+    P_TO = 750
     #number of engine
     N_e = 1
     #number of propeller
-    N_p = 1
+    N_p = 2
     #number of propeller blades
-    N_bl = 5
+    N_bl = 3
     #diameter of propeller
-    D_p = 9
+    D_p = 8.6
     #constant
     K_fsp = 5.87
     #fuel fraction of tanks which are integral
@@ -147,7 +153,7 @@ def total_weight_calc():
         W_w = wing_weight(W_TO, n_ult, A, del_quar, S, lam, tcm, V_H, W_F, q)
         W_em = empennage_weight(W_TO, n_ult, S_v, b_v, trv, A_v, del_quar_v)
         W_fus = fuselage_weight(W_TO, n_ult, l_f, w_f, h_f, V_C, N_pax, S_f, l_t, q)
-        W_eng = engine_weight(P_TO, N_e, N_p, N_bl, D_p, k_p=.55)
+        W_eng = engine_weight(W_TO, P_TO, N_e, N_p, N_bl, D_p, k_p=.55)
         W_fs = fuel_system_weight(W_F, K_fsp, fracfuel, N_t, N_e)
         W_fc = flight_control_sys_weight(W_TO)
         W_iae = avionics_weight(N_pax)
@@ -159,14 +165,14 @@ def total_weight_calc():
         W_hopper = 64.125*1.6
         W_tfo = 44
 
-        W_TO_new = W_payload + W_F + W_pax + W_boom + 2*W_w + W_em + W_fus + W_lgm + W_lgf + W_eng + W_fs + W_fc + W_iae + W_els + W_api + W_APU + W_fur + W_winglets + W_hopper + W_tfo
+        W_TO_new = W_payload + W_F + W_pax + W_boom + 2*W_w + W_em + W_fus + W_lgm + W_lgf + W_eng + W_fs + W_fc + W_iae + W_els + W_api + W_APU + W_fur + W_winglets + W_hopper + W_tfo + W_gen + 2*W_motor + W_rein
         W_TO = W_TO_new
         iter = iter + 1
 
-    return iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lgm, W_lgf, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_hopper, W_tfo, W_boom, W_TO_new
+    return iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lgm, W_lgf, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_hopper, W_tfo, W_boom, W_gen, W_motor, W_rein, W_TO_new
     
     
-iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lgm, W_lgf, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_hopper, W_tfo, W_boom, W_TO_new = total_weight_calc()
+iter, W_payload, W_F, W_pax, n_lim_pos, W_w, W_em, W_fus, W_lgm, W_lgf, W_eng, W_fs, W_fc, W_iae, W_els, W_api, W_APU, W_fur, W_winglets, W_hopper, W_tfo, W_boom, W_gen, W_motor, W_rein, W_TO_new = total_weight_calc()
 print("Iterations: ", iter)
 print("Payload: ", W_payload)
 print("Fuel: ", W_F)
@@ -188,22 +194,25 @@ print("Furnishings: ", W_fur)
 print("Hopper: ", W_hopper)
 print("Trapped Fuel and Oil: ", W_tfo)
 print("Boom: ", W_boom)
+print("Generator: ", W_gen)
+print("Motors: ", 2*W_motor)
+print("Strucutural Reinforcement:", W_rein)
 print("Gross Takeoff Weight: ", W_TO_new)
 
 
 
-def cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur):
-    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 3.45*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 2.485*W_APU + 6.717*W_fur)/( 2*W_w + W_em + W_winglets + W_fus + W_eng + W_lgf + W_lgm + W_fs + W_F + W_pax + W_hopper + W_payload + W_boom + W_fc + W_els + W_iae + W_api + W_APU + W_fur)
+def cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein):
+    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 20.1*W_eng + 3.45*W_lgf + 21.725*W_lgm + 18.72*W_fs + 17*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 28*W_APU + 6.717*W_fur + 25*W_gen + 2*20.1*W_motor + W_rein*9.6)/( 2*W_w + W_em + W_winglets + W_fus + W_eng + W_lgf + W_lgm + W_fs + W_F + W_pax + W_hopper + W_payload + W_boom + W_fc + W_els + W_iae + W_api + W_APU + W_fur + W_gen + 2*W_motor + W_rein)
     return x_cg
 
-def cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur):
-    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 31.695*W_eng + 2.155*W_lgf + 21.725*W_lgm + 22.8*W_fs + 10.364*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 2.485*W_APU + 6.717*W_fur)/( 2*W_w + W_em + W_winglets + W_fus + W_eng + W_lgf + W_lgm + W_fs + W_F + W_pax + W_hopper + W_payload + W_boom + W_fc + W_els + W_iae + W_api + W_APU + W_fur)
+def cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein):
+    x_cg = (12.79*W_w + 33.69*W_w + 31.314*W_em + 22.142*W_winglets + 12.425*W_fus + 20.1*W_eng + 2.155*W_lgf + 21.725*W_lgm + 18.72*W_fs + 17*W_F + 7.554*W_pax + 14.65*W_hopper + 14.65*W_payload + 13.838*W_boom + 22.142*W_fc + 3.434*W_els + 4.696*W_iae + 7.008*W_api + 28*W_APU + 6.717*W_fur + 25*W_gen + 2*20.1*W_motor + W_rein*9.6)/( 2*W_w + W_em + W_winglets + W_fus + W_eng + W_lgf + W_lgm + W_fs + W_F + W_pax + W_hopper + W_payload + W_boom + W_fc + W_els + W_iae + W_api + W_APU + W_fur + W_gen + 2*W_motor + W_rein)
     return x_cg
 
-x_cg = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+x_cg = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
 print("Center of Gravity: ", x_cg)
 
-x_cg_empty = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, 0, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+x_cg_empty = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, 0, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
 print("Empty Center of Gravity: ", x_cg_empty)
 
 
@@ -213,14 +222,14 @@ w3 = 51.658
 w4 = 344.792
 w5 = 49.752
 w6 = 119.864
-cg_gear_down_TO = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
-cg_takeoff_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
-cg_cruise_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
-cg_spray_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
-cg_cruise_back_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4, W_pax, W_hopper, W_payload-4000, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
-cg_loiter_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5, W_pax, W_hopper, W_payload-4000, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
-cg_land_start = cg_location(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5-w6, W_pax, W_hopper, W_payload-4000, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
-cg_gear_down_land = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5-w6, W_pax, W_hopper-4000, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur)
+cg_gear_down_TO = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
+cg_takeoff_start = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
+cg_cruise_start = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
+cg_spray_start = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3, W_pax, W_hopper, W_payload, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
+cg_cruise_back_start = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
+cg_loiter_start = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
+cg_land_start = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5-w6, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
+cg_gear_down_land = cg_location_gear_down(W_w, W_em, W_winglets, W_fus, W_eng, W_lgf, W_lgm, W_fs, W_F-w1-w2-w3-w4-w5-w6, W_pax, W_hopper, 0, W_boom, W_fc, W_els, W_iae, W_api, W_APU, W_fur, W_gen, W_motor, W_rein)
 
 cg_envelope = [cg_gear_down_TO, cg_takeoff_start, cg_cruise_start, cg_spray_start, cg_cruise_back_start, cg_loiter_start, cg_land_start, cg_gear_down_land]
 print(cg_envelope)
@@ -229,14 +238,14 @@ cg_location_envelope = np.zeros_like(cg_envelope)
 for i in range(len(cg_envelope)):
     cg_location_envelope[i] = cg_envelope[i]/4.45
 print(cg_location_envelope)
-cg_weights = [W_TO_new-w1, W_TO_new-w1, W_TO_new-w1-w2, W_TO_new-w1-w2-w3, W_TO_new-w1-w2-w3-w4-4000, W_TO_new-w1-w2-w3-w4-w5-4000, W_TO_new-w1-w2-w3-w4-w5-w6-4000, W_TO_new-w1-w2-w3-w4-w5-w6-4000]
+cg_weights = [W_TO_new-w1, W_TO_new-w1, W_TO_new-w1-w2, W_TO_new-w1-w2-w3, W_TO_new-w1-w2-w3-w4-W_payload, W_TO_new-w1-w2-w3-w4-w5-W_payload, W_TO_new-w1-w2-w3-w4-w5-w6-W_payload, W_TO_new-w1-w2-w3-w4-w5-w6-W_payload]
 print(cg_weights)
 
 plt.figure()
 plt.plot(cg_location_envelope, cg_weights)
 
-plt.axvline(x=16.9/4.45, linestyle='--')
-plt.axvline(x=18.45/4.45, linestyle='--')
+plt.axvline(x=16.8928/4.45, linestyle='--')
+plt.axvline(x=18.498/4.45, linestyle='--')
 
 plt.scatter(cg_location_envelope[0], cg_weights[0], color='black', s=10, zorder=2)
 plt.scatter(cg_location_envelope[1], cg_weights[1], color='black', s=10, zorder=2)
