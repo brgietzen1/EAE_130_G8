@@ -256,7 +256,7 @@ P_design = W_design * (WP_design)**-1
 
 # Values that should come from iteration in Algorithm 4
 S_o = 387.2 # ft^2
-T_i = 620 # hp
+T_i = 750 # hp
 
 results = solve_takeoff_weight_2(S_o, T_i, S_design, P_design)
 

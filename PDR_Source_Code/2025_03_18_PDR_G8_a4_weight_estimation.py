@@ -245,7 +245,7 @@ def solve_takeoff_weight_2(S_o, P_i, S_design, P_design, tol = 1e-6, max_iter=10
     raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
     
 ################################################# Example for solving for takeoff weight #######################################
-W_design = 12214.12 # lbs
+W_design = 6584.37 # lbs
 WP_design = 17.8
 WS_design = 25.4
 

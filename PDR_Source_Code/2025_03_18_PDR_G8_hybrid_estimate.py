@@ -201,7 +201,7 @@ def solve_takeoff_weight(crew_weight, payload_weight, A, C, cruise_segments, loi
 
 ############################### USE CODE STARTING HERE ###########################
 crew_weight = 190  # lbf
-payload_weight = 4000  # lbf
+payload_weight = 2000  # lbf
 A = 0.74              # Raymer constant for "Agricultural aircraft" (Table 3.1)
 C = -0.03             # Raymer constant for "Agricultural aircraft" (Table 3.1)
 H = 0             # Degree hybridization in terms of maximum power of electric motor over total aircraft power
