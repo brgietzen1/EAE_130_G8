@@ -64,7 +64,7 @@ def furnishings_weight(N_pax, W_TO):
 
 
 def total_weight_calc():
-    W_TO = 10910
+    W_TO = 9106.24
     #payload weight
     W_payload = 3000
     #passenger weight
@@ -81,7 +81,7 @@ def total_weight_calc():
     #Structural Reinforcement
     W_rein = 120
     #mission fuel weight [lbs]
-    W_F = 866
+    W_F = 822.08
     #wing aspect ratio
     A = 10
     #wing quarter-chord sweep angle
@@ -163,7 +163,7 @@ def total_weight_calc():
         W_fur = furnishings_weight(N_pax, W_TO)
         W_winglets = 1/12.7*2*W_w
         W_hopper = 64.125*1.6
-        W_tfo = 44
+        W_tfo = 0
 
         W_TO_new = W_payload + W_F + W_pax + W_boom + 2*W_w + W_em + W_fus + W_lgm + W_lgf + W_eng + W_fs + W_fc + W_iae + W_els + W_api + W_APU + W_fur + W_winglets + W_hopper + W_tfo + W_gen + 2*W_motor + W_rein
         W_TO = W_TO_new
@@ -198,7 +198,7 @@ print("Generator: ", W_gen)
 print("Motors: ", 2*W_motor)
 print("Structural Reinforcement:", W_rein)
 print("Gross Takeoff Weight: ", W_TO_new)
-print("Empty Weight: ", W_TO_new-W_payload-W_F)
+print("Empty Weight: ", W_TO_new-W_payload-W_F-W_pax)
 
 
 
