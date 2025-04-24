@@ -1,0 +1,33 @@
+import numpy as np
+
+cfoverc=0.3
+
+S_f=78.78 #ft^2
+S_w=193.6 #ft^2
+S_t=193.6
+S_ref=387.2
+C_LWlanding=2.113
+C_LWtakeoff=1.977
+X_wlanding=7.26
+X_wtakeoff=5.7
+c=4.45
+X=20.78
+X_tlanding=13.261
+X_ttakeoff=15.08
+C_M=0.16
+AR_t=10
+delta_f_landing=30 * np.pi / 180 #radian 
+delta_f_takeoff=10 * np.pi / 180 #radian 
+CD_flap_landing= 1.7*(cfoverc)**1.38*(S_f/S_w)*np.sin(delta_f_landing)**2
+CD_flap_takeoff= 1.7*(cfoverc)**1.38*(S_f/S_w)*np.sin(delta_f_takeoff)**2
+V_HT=(X*S_t)/(c*S_ref)
+e_t=1.78*(1-0.045*AR_t**0.68)-0.64
+C_Lt_landing=(C_LWlanding*(X_wlanding/c)+C_M)*(X/(X-X_wlanding))*1/V_HT
+C_Lt_takeoff=(C_LWtakeoff*(X_wtakeoff/c)+C_M)*(X/(X-X_wtakeoff))*1/V_HT
+CD_trim_landing=(C_Lt_landing**2)/(np.pi*e_t*AR_t)*(S_t/S_ref)
+CD_trim_takeoff=(C_Lt_takeoff**2)/(np.pi*e_t*AR_t)*(S_t/S_ref)
+
+print(f"Landing flap drag is {CD_flap_landing:.6f}")
+print(f"Takeoff flap drag is {CD_flap_takeoff:.6f}")
+print(f"Landing trim drag is {CD_trim_landing:.6f}")
+print(f"Takeoff trim drag is {CD_trim_takeoff:.6f}")
