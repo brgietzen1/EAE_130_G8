@@ -74,12 +74,12 @@ def PlotPayloadRange(Fuel, Max_Payload, W_e, CD_o, R_ferry, e, eta, AR, c):
 
 
 # Settings
-Total_Mission_Fuel = 822.08 # lbf
+Total_Mission_Fuel = 659.59 # lbf
 Max_Payload = 3000           # lbf
 W_e = 4690                   # lbf
 CD_o = 0.04048
 R_ferry = 3.646e+6           # ft (600 nmi)
-e = 1.3567
+e = 1.295
 eta = 0.72
 AR = 5
 c = 0.6  # lbm/hp/hr

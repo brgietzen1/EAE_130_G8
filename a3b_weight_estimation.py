@@ -294,7 +294,7 @@ def solve_takeoff_weight_3(W_crew, W_payload, S, W_e, mission_segments,
 W_crew = 190 # lbs
 W_payload = 3000 # lbs
 S = 387.2 # ft^2
-W_empty = 4881.4 # lbs
+W_empty = 4661.97 # lbs
 P_shaft = 750 # shp
 
 # Define mission segments MUST BE SEQUENTIAL    
