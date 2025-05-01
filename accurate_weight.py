@@ -64,7 +64,7 @@ def furnishings_weight(N_pax, W_TO):
 
 
 def total_weight_calc():
-    W_TO = 9106.24
+    W_TO =  8511.56
     #payload weight
     W_payload = 3000
     #passenger weight
