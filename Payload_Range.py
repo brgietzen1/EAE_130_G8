@@ -31,7 +31,7 @@ def PlotPayloadRange(Fuel, Max_Payload, W_e, CD_o, R_ferry, e, eta, AR, c):
     R_a = 0
     W_a = Max_Payload
 
-    # Point B: Max payload range (excluding reserves)
+    # Point B: Max payload range 
     Wb_o = GTOW
     Wb_f = GTOW - Fuel_Max_Payload
     R_b = RangeCalculator(eta, c, L_D, Wb_o, Wb_f)
@@ -40,8 +40,8 @@ def PlotPayloadRange(Fuel, Max_Payload, W_e, CD_o, R_ferry, e, eta, AR, c):
     # Point D: Max range, zero payload (ferry flight)
     Wd_f = W_e + Fuel_Reserves
     Wd_o = Wd_f * np.exp(R_ferry * c / (eta * L_D))
+    print(Wd_o)
     max_fuel = Wd_o - Wd_f
-    print(max_fuel)
     R_d = R_ferry
     W_d = 0
 
@@ -57,17 +57,31 @@ def PlotPayloadRange(Fuel, Max_Payload, W_e, CD_o, R_ferry, e, eta, AR, c):
     R_vals = np.array([R_a, R_b, R_c, R_d]) * ft_to_nmi
     W_vals = np.array([W_a, W_b, W_c, W_d])
 
+
+    print(f"\nMax Payload (lbf): {W_vals[1]:.3f}")
+    print(f"Max Payload with Max Fuel (lbf): {W_vals[2]:.3f}")
+    print(f"\nMax Fuel For Full Payload (lbf): {Fuel_Max_Payload:.3f}")
+    print(f"Max Fuel (lbf): {max_fuel:.3f}")
+    print(f"\nMax Payload Range (nmi): {R_vals[1]:.3f}")
+    print(f"Max Range With Max Fuel @ MTOW (nmi): {R_vals[2]:.3f}")
+    print(f"Max Ferry Range (nmi): {R_vals[3]:.3f}")
+
+
+
     # Plot
     plt.figure(figsize=(8, 6))
     plt.plot(R_vals, W_vals, marker='o', linestyle='-', color='b')
-    plt.text(R_vals[0], W_vals[0], 'A', fontsize=12, ha='right', va='bottom')
+    plt.text(R_vals[0], W_vals[0], 'A', fontsize=12, ha='left', va='bottom')
     plt.text(R_vals[1], W_vals[1], 'B', fontsize=12, ha='left', va='bottom')
-    plt.text(R_vals[2], W_vals[2], 'C', fontsize=12, ha='left', va='top')
-    plt.text(R_vals[3], W_vals[3], 'D', fontsize=12, ha='right', va='top')
+    plt.text(R_vals[2], W_vals[2], 'C', fontsize=12, ha='left', va='bottom')
+    plt.text(R_vals[3], W_vals[3], 'D', fontsize=12, ha='left', va='bottom')
+    plt.axhline( y = Max_Payload, color = 'r', linestyle = "--", linewidth = 2, label = "Max Payload")
 
     plt.xlabel('Range [nmi]')
-    plt.ylabel('Payload [lbf]')
-    plt.title('Payload-Range Diagram')
+    plt.xlim(left = -5)
+    plt.ylabel('Payload Weight [lbf]')
+    plt.title('Payload-Range Chart')
+    plt.legend()
     plt.grid(True)
     plt.tight_layout()
     plt.show()
@@ -76,7 +90,7 @@ def PlotPayloadRange(Fuel, Max_Payload, W_e, CD_o, R_ferry, e, eta, AR, c):
 # Settings
 Total_Mission_Fuel = 659.59 # lbf
 Max_Payload = 3000           # lbf
-W_e = 4690                   # lbf
+W_e = 4851.97          # Operational empty eight: includes aircraft empty weight and pilot
 CD_o = 0.04048
 R_ferry = 3.646e+6           # ft (600 nmi)
 e = 1.295
