@@ -9,9 +9,9 @@ v_stall_TO = 120
 #stall velocity during cruise [ft/s]
 v_stall_flight = 169
 #overall maximum coefficient of lift
-cl_max = 2.0
+cl_max = 1.899
 #maximum coefficient of lift at cruise
-cl_max_cruise = 1.6
+cl_max_cruise = 1.612
 #Takeoff distance [ft]
 s_TO = 1000
 #density on the ground (should be at sea level for Davis) [slug/ft^3]
@@ -21,13 +21,13 @@ rho_sea = .002378
 #density at cruise [slug/ft^3]
 rho_cruise = 0.001756
 #maximum coefficient of lift at takeoff
-cl_max_TO = 1.7333
+cl_max_TO = 1.7625
 #total landing distance [ft]
 s_L = 1500
 #obstacle clearance distance [ft]
 s_a = 500
 #maximum coefficient of lift at landing conditions
-cl_max_land = 2.0
+cl_max_land = 1.899
 #span efficiency factor
 e = 1.1924
 #Aspect ratio
@@ -35,29 +35,29 @@ AR = 5
 #stall factor (in FAR 23)
 k_s = 1.3
 #drag coefficient at zero lift
-cd_0 = .0664
+cd_0 = .04048
 #max coefficient of lift at climb
-cl_max_climb = 1.7333
+cl_max_climb = 1.7625
 #cruise weight [lbm]
-W_cruise = 6584
+W_cruise = 8511
 #takeoff weight [lbm]
-W_takeoff = 6584
+W_takeoff = 8511
 #landing weight [lbm] !!!
-W_landing = 6584-2000
+W_landing = 8511-3000
 #cruise speed [ft/s] potentially 267
-v_cruise = 200
+v_cruise = 220
 #propeller efficiency
 eta_p = 0.9
 #dynamic pressure at cruise [lbf/ft^2] slugs/ft^3 * ft^2/s^2 = slugs/ft/s^2 = lbf/ft^2
 q_cruise = (1/2*rho_cruise * v_cruise**2)
 #power at cruise [hp]
-P_cruise = 760
+P_cruise = 700
 #power at takeoff [hp]
-P_takeoff = 950
+P_takeoff = 750
 #turn radius [ft] !!!
-R_turn = 600
+R_turn = 450
 #flaps and ailerons partly extended to turn 
-cl_max_maneuver = 1.6
+cl_max_maneuver = 1.612
 
 
 #Stall Constraint (plot on x axis as vertical line)
@@ -134,12 +134,12 @@ def stall_constraint_maneuver(rho_cruise, v_stall_flight, cl_max, n, W_cruise, W
 wing_loading_stall = stall_constraint(v_stall_flight, rho_cruise, cl_max_cruise)
 takeoff_constraint, takeoff_constraint_power = takeoff_constraint(s_TO, rho_ground, rho_sea, cl_max_TO, wing_loading, eta_p)
 wing_loading_landing_corrected = landing_constraint(s_L, s_a, cl_max_land, rho_ground, rho_sea, W_landing, W_takeoff)
-climb_constraint_corrected, climb_constraint_corrected_power = climb_constraint(wing_loading, 1.1202, AR, k_s, .0814, cl_max_climb, rho_ground, eta_p, W_takeoff, W_takeoff, 0.04)
-climb_constraint_corrected2, climb_constraint_corrected_power2 = climb_constraint(wing_loading, 1.0479, AR, k_s, .1314, cl_max_land, rho_ground, eta_p, W_landing, W_takeoff, 0.03)
+climb_constraint_corrected, climb_constraint_corrected_power = climb_constraint(wing_loading, 1.1202, AR, k_s, .04655, cl_max_climb, rho_ground, eta_p, W_takeoff, W_takeoff, 0.04)
+climb_constraint_corrected2, climb_constraint_corrected_power2 = climb_constraint(wing_loading, 1.0479, AR, k_s, .05465, cl_max_land, rho_ground, eta_p, W_landing, W_takeoff, 0.03)
 cruise_constraint_corrected, cruise_constraint_corrected_power = cruise_constraint(e, AR, W_cruise, W_takeoff, wing_loading, v_cruise, eta_p, q_cruise, cd_0, P_cruise, P_takeoff)
 ceiling_constraint, ceiling_constraint_power = ceiling_constraint(e, AR, cd_0, rho_cruise, cl_max_cruise, wing_loading, eta_p, W_cruise, W_takeoff, P_cruise, P_takeoff)
 maneuver_constraint, maneuver_constraint_power, n = maneuver_constraint(e, AR, v_stall_flight, R_turn, W_cruise, W_takeoff, q_cruise, cd_0, wing_loading, rho_ground, cl_max_maneuver, eta_p, P_cruise, P_takeoff)
-wing_loading_stall_maneuver = stall_constraint_maneuver(rho_cruise, v_stall_flight, cl_max_maneuver, n, W_cruise-2000, W_takeoff)
+wing_loading_stall_maneuver = stall_constraint_maneuver(rho_cruise, v_stall_flight, cl_max_maneuver, n, W_cruise-3000, W_takeoff)
 print(n)
 
 plt.figure()
@@ -158,8 +158,8 @@ plt.grid()
 '''x_range = (wing_loading >= 22.2) & (wing_loading <= 31.375)
 plt.fill_between(wing_loading, 0, cruise_constraint_corrected_power*.77, where=wing_loading<=23, color='skyblue')
 plt.fill_between(wing_loading[x_range], 0, climb_constraint_corrected_power2[x_range]*.77, color='skyblue')'''
-plt.scatter(32.4, 15.7, color='red',s=70,zorder=2)
-plt.scatter(26.5, 11, color='red',s=70,zorder=2)
+plt.scatter(22.75, 14, color='red',s=70,zorder=2)
+plt.scatter(28, 11.5, color='red',s=70,zorder=2)
 plt.title("Power Loading Specific (W/P$_{\mathrm{Specific}}$) vs. Wing Loading (W/S)")
 plt.xlabel("W/S [lbs/ft\u00b2]")
 plt.ylabel("W/P$_{\mathrm{Specific}}$ [lbs/hp]")
