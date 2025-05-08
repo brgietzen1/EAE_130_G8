@@ -294,7 +294,7 @@ def solve_takeoff_weight_3(W_crew, W_payload, S, W_e, mission_segments,
 W_crew = 190 # lbs
 W_payload = 3000 # lbs
 S = 387.2 # ft^2
-W_empty = 4661.97 # lbs
+W_empty = 4649.93266960217 # lbs
 P_shaft = 750 # shp
 
 # Define mission segments MUST BE SEQUENTIAL    
@@ -323,6 +323,7 @@ print(f"  Empty Weight Fraction: {empty_weight_frac:.4f}")
 print(f"  Fuel Weight Fraction: {fuel_weight_frac:.4f}")
 print(f"  Empty Weight: {empty_weight:.2f} lbs")
 print(f"  Fuel Weight: {fuel_weight:.2f} lbs")
+print(f"  Fuel Reserve Weight: {fuel_weight*0.06:.2f} lbs")
 
 print("\nSegment Fuel Fractions:")
 for i, frac in enumerate(segment_fuel_fracs, 1):

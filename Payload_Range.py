@@ -90,7 +90,7 @@ def PlotPayloadRange(Fuel, Max_Payload, W_e, CD_o, R_ferry, e, eta, AR, c):
 # Settings
 Total_Mission_Fuel = 659.59 # lbf
 Max_Payload = 3000           # lbf
-W_e = 4851.97          # Operational empty eight: includes aircraft empty weight and pilot
+W_e = 4839.33        # Operational empty eight: includes aircraft empty weight and pilot
 CD_o = 0.04048
 R_ferry = 3.646e+6           # ft (600 nmi)
 e = 1.295
