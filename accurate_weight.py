@@ -81,7 +81,7 @@ def total_weight_calc():
     #Structural Reinforcement
     W_rein = 0
     #mission fuel weight [lbs]
-    W_F = 822.08
+    W_F = 658.97
     #wing aspect ratio
     A = 10
     #wing quarter-chord sweep angle
