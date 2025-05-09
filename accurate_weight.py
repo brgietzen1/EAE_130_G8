@@ -250,9 +250,8 @@ print(cg_weights)
 plt.figure()
 plt.plot(cg_location_envelope, cg_weights)
 
-plt.axvline(x=3.7972, linestyle='--')
-plt.axvline(x=17.1/8.9*2, linestyle='--')
-plt.axvline(x=19.41/8.9*2, linestyle='--')
+plt.axvline(x=18.516/8.9*2, linestyle='--')
+plt.axvline(x=20.106/8.9*2, linestyle='--')
 
 plt.scatter(cg_location_envelope[0], cg_weights[0], color='black', s=10, zorder=2)
 plt.scatter(cg_location_envelope[1], cg_weights[1], color='black', s=10, zorder=2)
