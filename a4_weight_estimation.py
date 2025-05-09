@@ -124,7 +124,7 @@ def ZeroLiftDrag(S_ref, W_o, cf = 0.0070):
 
     return Cdo
 
-def LiftCoefficient(Cdo, AR = 5, e = 1.1):
+def LiftCoefficient(Cdo, AR = 5, e = 1.1924):
     """Calculates the lift coefficient when the aircraft is in its clean configuration"""
     k = (np.pi * e* AR)**-1
     C_L = np.sqrt(Cdo/k)
@@ -247,9 +247,9 @@ def solve_takeoff_weight_2(S_o, P_i, S_design, P_design, tol = 1e-6, max_iter=10
     raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
     
 ################################################# Example for solving for takeoff weight #######################################
-W_design = 12214.12 # lbs
-WP_design = 17.8
-WS_design = 25.4
+W_design = 9418.96 # lbs
+WP_design = 12.5
+WS_design = 26.75
 
 S_design = W_design * (WS_design)**-1
 P_design = W_design * (WP_design)**-1
