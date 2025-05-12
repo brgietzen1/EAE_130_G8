@@ -209,11 +209,11 @@ plt.axis([275, 500, 300, 900])
 x1 = 5
 y1 = 5
 plt.scatter(387.2, 750, color='red', s=70, zorder=2)
-plt.text(387.2+x1, 750, 'Ceres-100')
+plt.text(387.2+x1/2, 750, 'Ceres-100')
 plt.scatter(306, 680, color='red', s=70, zorder=2)
 plt.text(306+x1, 680, 'AT-402B')
 plt.scatter(365, 750, color='red', s=70, zorder=2)
-plt.text(365+x1, 750, 'Thrush 510P2')
+plt.text(365, 750+2*y1, 'Thrush 510P2')
 plt.scatter(294, 750, color='red', s=70, zorder=2)
 plt.text(294+x1, 750, 'PAC Cresco')
 
