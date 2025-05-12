@@ -201,13 +201,13 @@ def solve_takeoff_weight(crew_weight, payload_weight, A, C, cruise_segments, loi
 
 ############################### USE CODE STARTING HERE ###########################
 crew_weight = 190  # lbf
-payload_weight = 4000  # lbf
+payload_weight = 3000  # lbf
 A = 0.74              # Raymer constant for "Agricultural aircraft" (Table 3.1)
 C = -0.03             # Raymer constant for "Agricultural aircraft" (Table 3.1)
 H = 0             # Degree hybridization in terms of maximum power of electric motor over total aircraft power
 e_f = 12800          # Fuel specific energy in Wh/kg (using Jet-A)
 e_b = 260            # battery specific energy in Wh/kg
-eta_prop = 0.8        # efficiency of propeller
+eta_prop = 0.77        # efficiency of propeller
 eta_th = 0.30         # Thermal efficiency of converting fuel into power
 eta_elec = 0.85       # Efficiency of converting battery power into power for the electric motor
 tol = 1e-6            # Convergence tolerance
