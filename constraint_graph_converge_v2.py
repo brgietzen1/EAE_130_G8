@@ -194,7 +194,7 @@ S_stall_maneuver, P_stall_maneuver = stall_constraint_maneuver_converge(x, y, rh
 print("The load factor n is:", n)
 
 
-plt.figure()
+plt.figure(figsize=(6,4), dpi=100)
 plt.plot(S_takeoff, P_takeoff, label='Takeoff')
 plt.plot(S_climb1, P_climb1, label='Takeoff Climb')
 plt.plot(S_climb2, P_climb2, label='Balked Climb')
@@ -219,7 +219,8 @@ plt.text(294+x1, 750, 'PAC Cresco')
 
 plt.legend(loc=(.7, .05))
 plt.grid()
-plt.title("Shaft Power ($P_{shaft}$) [hp] vs. Wing Area ($S$) [ft²]")
-plt.xlabel("$S$ [ft²]")
-plt.ylabel("$P_{shaft}$ [hp]")
+plt.title("Shaft Power ($P_{shaft}$) [hp] vs. Wing Area ($S$) [ft²]", fontsize=21, color='#033266', weight='bold')
+plt.xlabel("$S$ [ft²]", fontsize=16)
+plt.ylabel("$P_{shaft}$ [hp]", fontsize=16)
+plt.tight_layout
 plt.show()

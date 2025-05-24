@@ -150,7 +150,7 @@ def solve_takeoff_weight_2(S_o, P_i, S_design, P_design, tol = 1e-6, max_iter=10
     - takeoff_weight: Converged takeoff weight in lbf
     """
     crew_weight = 190  # lbf
-    payload_weight = 3000  # lbf
+    payload_weight = 4000  # lbf
     A = 0.74              # Raymer constant for "Agricultural aircraft" (Table 3.1)
     C = -0.03             # Raymer constant for "Agricultural aircraft" (Table 3.1)
     aerial_desnsity = 1.2 # lbf/ft^2 from Table 7.1 in Metabook
@@ -247,11 +247,7 @@ def solve_takeoff_weight_2(S_o, P_i, S_design, P_design, tol = 1e-6, max_iter=10
     raise ValueError(f"Did not converge within {max_iter} iterations. Last error: {error:.6f}")
     
 ################################################# Example for solving for takeoff weight #######################################
-<<<<<<< HEAD
-W_design = 9419 # lbs
-=======
-W_design = 9418.96 # lbs
->>>>>>> aa0119c065a7e6702dec73bc312dfbdbefc26981
+'''W_design = 9418.96 # lbs
 WP_design = 12.5
 WS_design = 26.75
 
@@ -272,4 +268,4 @@ print(f"  Takeoff Weight (W_naught): {takeoff_weight:.2f} lbs")
 print(f"  Empty Weight Fraction: {empty_weight_frac:.4f}")
 print(f"  Fuel Weight Fraction: {fuel_weight_frac:.4f}")
 print(f"  Empty Weight: {empty_weight:.2f} lbs")
-print(f"  Fuel Weight: {fuel_weight:.2f} lbs")
+print(f"  Fuel Weight: {fuel_weight:.2f} lbs")'''
